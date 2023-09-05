@@ -22,9 +22,9 @@ USE `forum`;
 -- Listage de la structure de table forum. category
 CREATE TABLE IF NOT EXISTS `category` (
   `id_category` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
@@ -33,13 +33,13 @@ CREATE TABLE IF NOT EXISTS `post` (
   `id_post` int NOT NULL AUTO_INCREMENT,
   `postDate` datetime NOT NULL,
   `content` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_user` int NOT NULL,
-  `id_topic` int NOT NULL,
+  `user_id` int NOT NULL,
+  `topic_id` int NOT NULL,
   PRIMARY KEY (`id_post`),
-  KEY `FK_post_user` (`id_user`),
-  KEY `FK_post_topic` (`id_topic`),
-  CONSTRAINT `FK_post_topic` FOREIGN KEY (`id_topic`) REFERENCES `topic` (`id_topic`),
-  CONSTRAINT `FK_post_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
+  KEY `FK_post_user` (`user_id`) USING BTREE,
+  KEY `FK_post_topic` (`topic_id`) USING BTREE,
+  CONSTRAINT `FK_post_topic` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id_topic`),
+  CONSTRAINT `FK_post_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
@@ -49,15 +49,15 @@ CREATE TABLE IF NOT EXISTS `topic` (
   `id_topic` int NOT NULL AUTO_INCREMENT,
   `title` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `creationDate` datetime NOT NULL,
-  `posts` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `id_user` int NOT NULL,
-  `id_category` int NOT NULL,
+  `posts` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1',
+  `user_id` int NOT NULL,
+  `category_id` int NOT NULL,
   PRIMARY KEY (`id_topic`),
-  KEY `FK_topic_user` (`id_user`),
-  KEY `FK_topic_category` (`id_category`),
-  CONSTRAINT `FK_topic_category` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`),
-  CONSTRAINT `FK_topic_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `FK_topic_user` (`user_id`) USING BTREE,
+  KEY `FK_topic_category` (`category_id`) USING BTREE,
+  CONSTRAINT `FK_topic_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id_category`),
+  CONSTRAINT `FK_topic_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Les données exportées n'étaient pas sélectionnées.
 
