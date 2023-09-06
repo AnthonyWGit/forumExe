@@ -1,18 +1,31 @@
 <?php
 
 $topics = $result["data"]['topics'];
-    
+
 ?>
 
 <h1>liste topics</h1>
 
 <?php
-foreach($topics as $topic ){
-
+if ($topics == null)
+{
     ?>
-    <p><?=$topic->getTitle()?></p>
+
+        <p>This category does not contain any topics for now.</p>
+        <p>Create the first one ! </p>
+
     <?php
 }
+else
+{
+    foreach($topics as $topic ){
+
+        ?>
+        <p><?=$topic->getTitle()?></p>
+        <?php
+    }    
+}
+
 
 
   
