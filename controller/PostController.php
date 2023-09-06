@@ -11,13 +11,25 @@
 
         public function index(){
           
-        $topicManager = new PostManager();
+        $postManager = new PostManager();
 
         return [
             "view" => VIEW_DIR."forum/listPosts.php",
             "data" => [
-                "posts" => $topicManager->findPostsInTopic($_GET["id"])
+                "posts" => $postManager->findPostsInTopic($_GET["id"])
+                
             ]
             ];
         }
+
+        // public function topicTitleDisplay()
+        // {
+        //     $postManager = new PostManager();
+        //     return [
+        //         "view" => VIEW_DIR."forum/listPosts.php",
+        //         "data" => [
+        //             "title" => $postManager->findTitleOfTopic($_GET["id"])
+        //         ]
+        //         ];
+        // }
     }
