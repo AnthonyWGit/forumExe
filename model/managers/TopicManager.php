@@ -14,6 +14,17 @@
         public function __construct(){
             parent::connect();
         }
-
+// Using a custom method because we need to find all the topics by ids 
+        public function findTopicsByCategory($id)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.category_id = :id";
+                
+            return $this->getMultipleResults(
+                DAO::select($sql, ['id'=>$id]),
+                $this->className
+            );
+        }
 
     }
