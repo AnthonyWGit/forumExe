@@ -21,7 +21,7 @@ else
     foreach($topics as $topic ){
 
         ?>
-        <p><?=$topic->getTitle()?></p>
+        <p><a href="index.php?ctrl=post&action=postsList&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a></p>
         <?php
     }    
 }
