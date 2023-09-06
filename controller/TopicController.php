@@ -12,14 +12,23 @@
         public function index(){
           
 
-           $topicManager = new TopicManager();
+        //    $topicManager = new TopicManager();
 
-            return [
-                "view" => VIEW_DIR."forum/listTopics.php",
-                "data" => [
-                    "topics" => $topicManager->findAll(["creationdate", "DESC"])
-                ]
-            ];
+        //     return [
+        //         "view" => VIEW_DIR."forum/listTopics.php",
+        //         "data" => [
+        //             "topics" => $topicManager->findAll(["creationdate", "DESC"])
+        //         ]
+        //     ]; 
+        //Block above shows all topics fromm all categories 
         
+        $topicManager = new TopicManager();
+
+        return [
+            "view" => VIEW_DIR."forum/listTopics.php",
+            "data" => [
+                "topics" => $topicManager->findTopicsByCategory($_GET["id"])
+            ]
+            ];
         }
     }
