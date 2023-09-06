@@ -16,7 +16,8 @@
         return [
             "view" => VIEW_DIR."forum/listPosts.php",
             "data" => [
-                "posts" => $postManager->findPostsInTopic($_GET["id"])
+                "posts" => $postManager->findPostsInTopic($_GET["id"]),
+                "title" => $postManager->findTitleOfTopic($_GET["id"])
                 
             ]
             ];

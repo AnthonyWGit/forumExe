@@ -27,4 +27,16 @@
             );
         }
 
+        public function findTitleOfTopic($id)
+        {
+            $sql = "SELECT title
+                    FROM ".$this->tableName. " p
+                    WHERE p.topic_id = :id";
+                
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$id]),
+                $this->className
+            );
+        }
+
     }
