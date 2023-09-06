@@ -69,7 +69,7 @@
          *
          * @return  self
          */ 
-        public function setRole($user)
+        public function setRole($role)
         {
                 $this->role = $role;
 
