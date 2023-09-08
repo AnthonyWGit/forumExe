@@ -16,15 +16,21 @@ header
     flex-direction: column;
 }
 
-.topicForm
+.topicForm, .postForm
  {
     display: flex;
     flex-direction: column;
  }
 
- #topic_form
+ #topic_form, #post_form
  {
     display: flex;
     flex-direction: column;
     gap: 1em;
+ }
+
+ .registerForm
+ {
+    display: flex;
+    flex-direction: column;
  }
