@@ -54,7 +54,7 @@
             $dataPost=["user_id" => 1, "topic_id" => $idTopicLastCreated, "content" => $_POST["firstPost"]];
 
             $postManager->createNewPost($dataPost);
-            $this->redirectTo("topic","listTopics",$idCat);            
+            $this->redirectTo("post","listPosts",$idTopicLastCreated);            
         }
 
     }
