@@ -29,6 +29,6 @@
 
         public function createNewTopic($data) //we need to id to know in wich category we create the topic
         {
-            $this->add($data);
+            return $this->add($data);
         }
     }
