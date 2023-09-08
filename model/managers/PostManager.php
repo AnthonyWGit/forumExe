@@ -27,8 +27,8 @@
             );
         }
 
-        public function createNewPost($data)
+        public function createNewPost($dataPost)
         {
-            $this->add($data);
+            $this->add($dataPost);
         }
     }
