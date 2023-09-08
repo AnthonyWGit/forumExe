@@ -9,7 +9,8 @@
     
     class PostController extends AbstractController implements ControllerInterface{
 
-        public function index(){
+        public function index()
+        {
           
         $postManager = new PostManager();
 
@@ -17,8 +18,6 @@
             "view" => VIEW_DIR."forum/listPosts.php",
             "data" => [
                 "posts" => $postManager->findPostsInTopic($_GET["id"]),
-                "title" => $postManager->findTitleOfTopic($_GET["id"])
-                
             ]
             ];
         }
