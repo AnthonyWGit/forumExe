@@ -16,4 +16,13 @@ class HomeController extends AbstractController implements ControllerInterface
 
     }
 
+    public function displayRegisterForm()
+    {
+       return
+       [
+        "view" => VIEW_DIR."forum/register.php"
+       ];
+    }
+
+
 }
