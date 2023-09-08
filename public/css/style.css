@@ -15,3 +15,16 @@ header
     align-items: center;
     flex-direction: column;
 }
+
+.topicForm
+ {
+    display: flex;
+    flex-direction: column;
+ }
+
+ #topic_form
+ {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+ }
