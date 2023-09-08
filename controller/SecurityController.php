@@ -36,6 +36,7 @@ class HomeController extends AbstractController implements ControllerInterface
     {
         $errors = [];
         $arrayPwdCheck = [];
+        $pwdMatching = 0;
         foreach($_POST as $fieldName=>$item)
         {
             var_dump($item);
@@ -125,8 +126,30 @@ class HomeController extends AbstractController implements ControllerInterface
                 }
             }
         }
-        var_dump($errors);
-        die();
+
+        //printing specific error when pwd don't match
+        if ($arrayPwdCheck[0] != $arrayPwdCheck[1])
+        {
+            $errors[] = "Passwords don't match";
+        }
+        else
+        {
+            $pwdMatching == 1;
+        }
+
+        $_SESSION["errors"] = $errors;
+        // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
+        //is the same as pwd confirm
+        if (($usernameCheck == 1) && ($checkEmail == 1) && empty($errors))
+        {
+            $success = 1;
+            $_SESSION["success"] = "Register complete";
+            $this->redirectTo("home","index");
+        }
+        else
+        {
+            $this->redirectTo("security","displayErrorPage");
+        }
     }
 
 }
