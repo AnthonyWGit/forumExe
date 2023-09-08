@@ -34,30 +34,99 @@ class HomeController extends AbstractController implements ControllerInterface
 
     public function validateForm()
     {
-        
-        foreach($_POST as $item)
+        $errors = [];
+        $arrayPwdCheck = [];
+        foreach($_POST as $fieldName=>$item)
         {
-            switch ($item)
+            var_dump($item);
+            switch ($fieldName)
             {
                 //Throws an error when there is one empty field no matter what it is
                 case NULL:
+                $errors = ["One field or more have not been filled"];
                 $this->redirectTo("security","displayErrorPage");
                 break;
                 
                 case "username":
-                $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                ($itemFiltered == $item) ? $usernameCheck = 1 : $suernameCheck = 0;
-                break;
+                    if($item == null)
+                    {
+                        $errors = ["One field or more have not been filled"];
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        ($itemFiltered == $item) ? $usernameCheck = 1 : $usernameCheck = 0;
+                        break;                        
+                    }
 
                 case "email":
-                filter_var($item,FILTER_VALIDATE_EMAIL) == true ? $checkEmail = 1 : $checkEmail = 0;
-                break;
+                if($item == null)
+                {
+                    $errors = ["One field or more have not been filled"];
+                    $this->redirectTo("security","displayErrorPage");
+                }
+                else
+                {
+                    filter_var($item,FILTER_VALIDATE_EMAIL) == true ? $checkEmail = 1 : $checkEmail = 0;
+                    break;                    
+                }
 
-                default:
-                $noEmptyFields = 1;
-                break;
+
+                case "password":
+                    if($item == null)
+                    {
+                        $errors = ["One field or more have not been filled"];
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        if (strlen($itemFiltered) < 8 || strlen($itemFiltered) > 60) 
+                        {
+                            $errors[] = "Password should be min 8 characters and max 60 characters";
+                        }
+                        if (!preg_match("/\d/", $itemFiltered)) 
+                        {
+                            $errors[] = "Password should contain at least one digit";
+                        }
+                        if (!preg_match("/[\p{Lu}]/u", $itemFiltered)) 
+                        {
+                            $errors[] = "Password should contain at least one Capital Letter : can be any unicode";
+                        }
+                        if (!preg_match("/[\p{Ll}]/", $itemFiltered)) 
+                        {
+                            $errors[] = "Password should contain at least one small Letter : can be any unicode";
+                        }
+                        if (!preg_match("/\W/", $itemFiltered)) 
+                        {
+                            $errors[] = "Password should contain at least one special character";
+                        }
+                        if (preg_match("/\s/", $itemFiltered)) 
+                        {
+                            $errors[] = "Password should not contain any white space";
+                        }
+                        array_push($arrayPwdCheck, $itemFiltered);
+                    break;                        
+                    }
+
+
+                case "validatePassword":
+                if($item == null)
+                {
+                    $errors = ["One field or more have not been filled"];
+                    $this->redirectTo("security","displayErrorPage");
+                }
+                else
+                {
+                    $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    array_push($arrayPwdCheck, $itemFiltered);
+                    break;                    
+                }
             }
         }
+        var_dump($errors);
+        die();
     }
 
 }
