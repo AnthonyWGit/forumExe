@@ -41,15 +41,20 @@
 
         public function newTopic()
         {
+            //use data from post
             $data = ["user_id" => 1 , "title" => $_POST["title"], "category_id" => $_GET["id"]];
             $topicManager = new TopicManager();
             $postManager = new PostManager();
+            $idCat = $_GET["id"];
 
-            $topicManager->createNewTopic($data);
-            $data=["user_id" => 1, "topic_id" => 1];
-            $postManager->createNewPost($data);
+            $idTopicLastCreated = $topicManager->createNewTopic($data);
+            // $topicManager->createNewTopic($data);
 
-            $this->redirectTo("topic","listTopics");            
+            //every topic needs at least a first post. Putting what's in the form in the first post
+            $dataPost=["user_id" => 1, "topic_id" => $idTopicLastCreated, "content" => $_POST["firstPost"]];
+
+            $postManager->createNewPost($dataPost);
+            $this->redirectTo("topic","listTopics",$idCat);            
         }
 
     }
