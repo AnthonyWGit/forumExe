@@ -22,7 +22,7 @@ else
     {
 
         ?>
-        <p><a href="index.php?ctrl=post&action=postsList&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a></p>
+        <p><a href="index.php?ctrl=post&action=listPosts&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a></p>
         <?php
     }    
 }
@@ -31,13 +31,13 @@ else
 <h2 id="new_topic"> New topic Creation </h2>
 
 <div class="topicForm">
-<form id="topic_form" method="post" action="index.php?ctrl=topic&action=newTopic">
+<form id="topic_form" method="post" action="index.php?ctrl=topic&action=newTopic&id=<?=$_GET["id"]?>">
 
     <label for="topicTitle">Topic tile </label>
-    <input type="text" id="topic_title"/>    
+    <input type="text" id="topic_title" name="title"/>    
 
     <label for="firstPost">First Post</label> 
-    <textarea id="topic_firstPost"></textarea>
+    <textarea id="topic_firstPost" name="firstPost"></textarea>
 
     <input type="submit" id="topic_validate" value="New Topic"/>
 </form>
