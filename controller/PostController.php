@@ -30,7 +30,9 @@
 
         public function newPost()
         {
-            $data = ["user_id" => 1, "topic_id" => $_GET["id"], "content"=>$_POST["makePost"]];
+            //vital minimum filtering
+            $sanitizedPost = filter_var($_POST["makePost"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $data = ["user_id" => 1, "topic_id" => $_GET["id"], "content"=>$sanitizedPost];
             $postManager = new PostManager();
             
             $postManager->add($data);

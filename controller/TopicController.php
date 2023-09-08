@@ -42,7 +42,11 @@
         public function newTopic()
         {
             //use data from post
-            $data = ["user_id" => 1 , "title" => $_POST["title"], "category_id" => $_GET["id"]];
+
+            //but first filter what is posted 
+            $sanitizedTitle = filter_var($_POST["title"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $data = ["user_id" => 1 , "title" => $sanitizedTitle, "category_id" => $_GET["id"]];
             $topicManager = new TopicManager();
             $postManager = new PostManager();
             $idCat = $_GET["id"];
@@ -51,7 +55,11 @@
             // $topicManager->createNewTopic($data);
 
             //every topic needs at least a first post. Putting what's in the form in the first post
-            $dataPost=["user_id" => 1, "topic_id" => $idTopicLastCreated, "content" => $_POST["firstPost"]];
+
+            //first filter post content
+            $sanitizedContent = filter_var($_POST["content"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            $dataPost=["user_id" => 1, "topic_id" => $idTopicLastCreated, "content" => $sanitizedContent];
 
             $postManager->createNewPost($dataPost);
             $this->redirectTo("post","listPosts",$idTopicLastCreated);            
