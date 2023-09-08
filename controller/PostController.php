@@ -30,10 +30,11 @@
 
         public function newPost()
         {
-            $data = ["user_id" => 1, "topic_id" => $_GET["id"], "content"=>$_POST["firstPost"]];
+            $data = ["user_id" => 1, "topic_id" => $_GET["id"], "content"=>$_POST["makePost"]];
             $postManager = new PostManager();
             
             $postManager->add($data);
+            $this->redirectTo("post", "listPosts", $_GET["id"]);
         }
 
         // public function topicTitleDisplay()
