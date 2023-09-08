@@ -11,8 +11,6 @@ foreach($posts as $post)
 {
 ?>
     <p>
-
-        <?= $post->getTopic()->getTitle() ?>
         <?= $post->getUser()->getUsername()?>
     </p>
     <p>
@@ -21,3 +19,17 @@ foreach($posts as $post)
     <?php
 }
 ?>
+<h2 id="new_post"> New Post Creation </h2>
+
+<div class="postForm">
+<form id="post_form" method="post" action="index.php?ctrl=post&action=newPost&id=<?=$_GET["id"]?>">
+
+    <label for="makePost">Post Content</label> 
+    <textarea id="makePost" name="makePost"></textarea>
+
+    <input type="submit" id="post_validate" value="New Post"/>
+</form>
+</div>
+
+  
+
