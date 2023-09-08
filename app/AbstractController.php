@@ -12,7 +12,7 @@
                 $url.= $action ? "&action=".$action : "";
                 $url.= $id ? "&id=".$id : "";
             }
-            else $url = "/";
+            else $url = "./";
             header("Location: $url");
             die();
 
