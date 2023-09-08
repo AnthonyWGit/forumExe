@@ -9,7 +9,8 @@
     
     class CategoryController extends AbstractController implements ControllerInterface{
 
-        public function index(){
+        public function index()
+        {
           
 
             $categoryManager = new CategoryManager();
