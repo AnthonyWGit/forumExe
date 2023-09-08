@@ -26,4 +26,9 @@
                 $this->className
             );
         }
+
+        public function createNewPost($data)
+        {
+            $this->add($data);
+        }
     }
