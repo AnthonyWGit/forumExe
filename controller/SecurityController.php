@@ -151,7 +151,7 @@ class HomeController extends AbstractController implements ControllerInterface
         {
             $pwdMatching == 1;
         }
-
+        
         //finally processed to check if username and email already exists in DB
         {
             $userFind = ($userCtrl->usernameFind($_POST["username"]));
@@ -242,15 +242,22 @@ class HomeController extends AbstractController implements ControllerInterface
                     break;
                 
                 case "password":
-                    if ($usernameCheck == 1)
+                    if ($usernameCheck == 1 && $sanitizedValue != null)
                     {
                         $password = $usernameObject->getPassword();
-                        $verify = password_verify($_POST["password"], $password);
-
+                        $verify = password_verify($sanitizedValue, $password);
+                        if(!$verify)
+                        {
+                            SESSION::addFlash("error", "Error detected");
+                            $errors[] = "This is not the good password.";
+                            $_SESSION["errors"] = $errors;
+                            $this->redirectTo("security", "displayErrorPage");
+                        }   
                     }
-                    else
+                    else if ($sanitizedValue == null)
                     {
-                        $errors[] = "This is not the good password.";
+                        SESSION::addFlash("error", "Error detected");
+                        $errors[] = "There is an empty field.";
                         $_SESSION["errors"] = $errors;
                         $this->redirectTo("security", "displayErrorPage");
                     }
@@ -264,6 +271,7 @@ class HomeController extends AbstractController implements ControllerInterface
         {
             $sessionCtrl = new Session();
             $sessionCtrl->setUser($usernameObject);
+            SESSION::addFlash("success", "Loggin has been completed successfully");
             $this->redirectTo("home","index");
         }
         else
