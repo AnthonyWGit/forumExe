@@ -1,7 +1,9 @@
 <?php
     namespace Model\Entities;
 
+
     use App\Entity;
+    use App\Session;
 
     final class User extends Entity{
 
@@ -59,7 +61,7 @@
         /**
          * Get the value of role
          */ 
-        public function getRole()
+        public function hasRole()
         {
                 return $this->role;
         }
@@ -124,5 +126,10 @@
                 $this->email = $email;
 
                 return $this;
+        }
+        //If no tostring the app will crash because in layout we echo the object
+        public function __toString()
+        {
+                return $this->getUsername();
         }
     }
