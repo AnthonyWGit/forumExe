@@ -46,7 +46,7 @@
             //but first filter what is posted 
             $sanitizedTitle = filter_var($_POST["title"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $data = ["user_id" => 1 , "title" => $sanitizedTitle, "category_id" => $_GET["id"]];
+            $data = ["user_id" => $_SESSION["user"]->getId() , "title" => $sanitizedTitle, "category_id" => $_GET["id"]];
             $topicManager = new TopicManager();
             $postManager = new PostManager();
             $idCat = $_GET["id"];
@@ -58,11 +58,9 @@
 
             //first filter post content
             $sanitizedContent = filter_var($_POST["content"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            $dataPost=["user_id" => 1, "topic_id" => $idTopicLastCreated, "content" => $sanitizedContent];
-
+            $dataPost=["user_id" => $_SESSION["user"]->getId(), "topic_id" => $idTopicLastCreated, "content" => $sanitizedContent];
             $postManager->createNewPost($dataPost);
-            $this->redirectTo("post","listPosts",$idTopicLastCreated);            
+            $this->redirectTo("post","listPosts",$idTopicLastCreated);     
         }
 
     }
