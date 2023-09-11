@@ -4,6 +4,7 @@
     use App\Manager;
     use App\DAO;
     use Model\Managers\PostManager;
+    use Model\Managers\TopicManager;
 
     class PostManager extends Manager{
 
@@ -27,9 +28,37 @@
             );
         }
 
+        public function findPostsInTopicOneOrNull($id)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.topic_id = :id";
+                
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$id], false),
+                $this->className
+            );
+        }
+
         public function createNewPost($dataPost)
         {
             $this->add($dataPost);
         }
 
+        public function deletePost($id)
+        {
+            $this->delete($id);
+        }
+
+        public function withPostGetTopicIdSingle($idPost)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.id_post = :id";
+                
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$idPost], false),
+                $this->className
+            );
+        }
     }
