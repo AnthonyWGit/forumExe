@@ -7,7 +7,7 @@
 <?= isset($success) && $success == 1 ? "Register is complete" : "" ?>
 
 <p>
-    <a href="/security/login.html">Se connecter</a>
+    <a href="index.php?ctrl=security&action=displayLoginForm">Se connecter</a>
     <span>&nbsp;-&nbsp;</span>
     <a href="index.php?ctrl=security&action=displayRegisterForm">S'inscrire</a>
 </p>

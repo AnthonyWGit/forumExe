@@ -24,6 +24,14 @@ class HomeController extends AbstractController implements ControllerInterface
        ];
     }
 
+    public function displayLoginForm()
+    {
+       return
+       [
+        "view" => VIEW_DIR."security/login.php"
+       ];
+    }
+
     public function displayErrorPage()
     {
         return
