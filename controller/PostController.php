@@ -32,9 +32,12 @@
         {
             //vital minimum filtering
             $sanitizedPost = filter_var($_POST["makePost"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            //trimming spaces 
+            $sanitizedPost = trim($sanitizedPost);
+
             $data = ["user_id" => $_SESSION["user"]->getId(), "topic_id" => $_GET["id"], "content"=>$sanitizedPost];
             $postManager = new PostManager();
-            
             $postManager->add($data);
             $this->redirectTo("post", "listPosts", $_GET["id"]);
         }
