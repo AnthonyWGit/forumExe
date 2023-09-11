@@ -41,6 +41,18 @@
 
         }
 
+        public function passwordFindbyUsername($username)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName." 
+                    WHERE username = :username
+                    ";
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['username' => $username], false), 
+                $this->className
+            );
+
+        }
         
         public function addUser($data)
         {
