@@ -37,7 +37,7 @@ else
     <input type="text" id="topic_title" name="title"/>    
 
     <label for="firstPost">First Post</label> 
-    <textarea id="topic_firstPost" name="firstPost"></textarea>
+    <textarea id="topic_firstPost" name="content"></textarea>
 
     <input type="submit" id="topic_validate" value="New Topic"/>
 </form>
