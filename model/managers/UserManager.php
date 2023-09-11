@@ -15,5 +15,22 @@
             parent::connect();
         }
 
+        public function usernameFind($username)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName." a
+                    WHERE a.username = :username
+                    ";
 
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['username' => $username], false), 
+                $this->className
+            );
+        }
+
+        public function addUser($data)
+        {
+            unset($data["validatePassword"]);
+            return $this->add($data);
+        }
     }

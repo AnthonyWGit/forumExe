@@ -6,7 +6,8 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
-use Model\Managers\SecurityManager;
+Use Model\Managers\UserManager;
+
 
 class HomeController extends AbstractController implements ControllerInterface
 {
@@ -42,12 +43,12 @@ class HomeController extends AbstractController implements ControllerInterface
 
     public function validateForm()
     {
+        $userCtrl = new UserManager();
         $errors = [];
         $arrayPwdCheck = [];
         $pwdMatching = 0;
         foreach($_POST as $fieldName=>$item)
-        {
-            var_dump($item);
+        {   
             switch ($fieldName)
             {
                 //Throws an error when there is one empty field no matter what it is
@@ -63,10 +64,12 @@ class HomeController extends AbstractController implements ControllerInterface
                         $this->redirectTo("security","displayErrorPage");
                     }
                     else
-                    {
+                    {   //sanitize
                         $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        // Need a regex rule for line below to not allow have username with special chars
                         ($itemFiltered == $item) ? $usernameCheck = 1 : $usernameCheck = 0;
-                        break;                        
+                        $_POST["username"] = $itemFiltered;
+                        break;
                     }
 
                 case "email":
@@ -77,7 +80,9 @@ class HomeController extends AbstractController implements ControllerInterface
                 }
                 else
                 {
-                    filter_var($item,FILTER_VALIDATE_EMAIL) == true ? $checkEmail = 1 : $checkEmail = 0;
+                    $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    filter_var($itemFiltered,FILTER_VALIDATE_EMAIL) == true ? $checkEmail = 1 : $checkEmail = 0;
+                    $_POST["email"] = $itemFiltered;
                     break;                    
                 }
 
@@ -116,6 +121,7 @@ class HomeController extends AbstractController implements ControllerInterface
                             $errors[] = "Password should not contain any white space";
                         }
                         array_push($arrayPwdCheck, $itemFiltered);
+                        $_POST["password"] = $itemFiltered;
                     break;                        
                     }
 
@@ -145,22 +151,44 @@ class HomeController extends AbstractController implements ControllerInterface
             $pwdMatching == 1;
         }
 
-        $_SESSION["errors"] = $errors;
-        // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
-        //is the same as pwd confirm
-        if (($usernameCheck == 1) && ($checkEmail == 1) && empty($errors))
+        //finally processed to check if username and email already exists in DB
         {
-            $success = 1;
-            $_SESSION["success"] = "Register complete";
-            $this->redirectTo("home","index");
-        }
-        else
-        {
-            $this->redirectTo("security","displayErrorPage");
+            $userFind = ($userCtrl->usernameFind($_POST["username"]));
+            if ($userFind)
+            {
+                $usernameSame = 1;
+
+                unset($_SESSION["errors"]);
+                $errors = empty($errors);
+                $errors = [];
+                $errors[] = "This username has already been taken"; 
+                $_SESSION["errors"] = $errors;
+
+                $this->redirectTo("security","displayErrorPage");
+            }
+            else
+            {
+                $usernameSame = 0;
+            }
+
+            // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
+            //is the same as pwd confirm
+            if (($usernameCheck == 1) && ($checkEmail == 1) && ($usernameSame == 0) && empty($errors))
+            {
+                $success = 1;
+                $_SESSION["success"] = "Register complete";
+                $userCtrl->addUser($_POST);
+                $this->redirectTo("home","index");
+            }
+            else
+            {
+                $this->redirectTo("security","displayErrorPage");
+            }            
         }
     }
 
 }
+
 
 // <label for="username">Username</label>
 // <input type="text" id="register_username" name="username"/>
