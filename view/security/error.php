@@ -10,5 +10,5 @@ foreach ($_SESSION["errors"] as $error)
 <?php
 }
 //cleaning session errors 
-unset($_SESSION["errors"]);
+if (isset($_SESSION["errors"])) unset($_SESSION["errors"]);
 ?>
