@@ -228,9 +228,9 @@ class HomeController extends AbstractController implements ControllerInterface
             {
                 case "username":
                     $usernameObject = $userCtrl->usernameFind($_POST["username"]); //We use the username of the post to find if we get a row in db
-                    $usernameString = $userCtrl->usernameFind($_POST["username"])->getUsername();
                     if (is_object($usernameObject))
                     {
+                        $usernameString = $userCtrl->usernameFind($_POST["username"])->getUsername();
                         $usernameCheck = 1;
                     }
                     else
@@ -265,6 +265,10 @@ class HomeController extends AbstractController implements ControllerInterface
             $sessionCtrl = new Session();
             $sessionCtrl->setUser($usernameObject);
             $this->redirectTo("home","index");
+        }
+        else
+        {
+            $this->redirectTo("security","displayErrorPage");
         }
     }
 
