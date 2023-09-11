@@ -154,7 +154,9 @@ class HomeController extends AbstractController implements ControllerInterface
         //finally processed to check if username and email already exists in DB
         {
             $userFind = ($userCtrl->usernameFind($_POST["username"]));
-            if ($userFind)
+            $emailFind = ($userCtrl->emailFind($_POST["email"]));
+
+            if (is_object($userFind)) // If we get an object back it means there is something existing in db 
             {
                 $usernameSame = 1;
 
@@ -163,8 +165,29 @@ class HomeController extends AbstractController implements ControllerInterface
                 $errors = [];
                 $errors[] = "This username has already been taken"; 
                 $_SESSION["errors"] = $errors;
+            }
+            else
+            {
+                $usernameSame = 0;
+            }
+            // Display both email + username taken or just one of them
+            if (is_object($emailFind))
+            {
+                $emailSame = 1;
 
-                $this->redirectTo("security","displayErrorPage");
+                if ($usernameSame == 1)
+                {
+                    $errors[] = "This email has already been taken"; 
+                    $_SESSION["errors"] = $errors;
+                }
+                else
+                {
+                    unset($_SESSION["errors"]);
+                    $errors = empty($errors);
+                    $errors = [];
+                    $errors[] = "This email has already been taken"; 
+                    $_SESSION["errors"] = $errors;
+                }
             }
             else
             {
@@ -173,7 +196,7 @@ class HomeController extends AbstractController implements ControllerInterface
 
             // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
             //is the same as pwd confirm
-            if (($usernameCheck == 1) && ($checkEmail == 1) && ($usernameSame == 0) && empty($errors))
+            if (($usernameCheck == 1) && ($checkEmail == 1) && ($usernameSame == 0) && ($emailSame == 0) && empty($errors))
             {
                 $success = 1;
                 $_SESSION["success"] = "Register complete";
