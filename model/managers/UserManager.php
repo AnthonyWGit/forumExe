@@ -18,8 +18,8 @@
         public function usernameFind($username)
         {
             $sql = "SELECT *
-                    FROM ".$this->tableName." a
-                    WHERE a.username = :username
+                    FROM ".$this->tableName."
+                    WHERE username = :username
                     ";
 
             return $this->getOneOrNullResult(
@@ -28,6 +28,20 @@
             );
         }
 
+        public function emailFind($email)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName." 
+                    WHERE email = :email
+                    ";
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['email' => $email], false), 
+                $this->className
+            );
+
+        }
+
+        
         public function addUser($data)
         {
             unset($data["validatePassword"]);
