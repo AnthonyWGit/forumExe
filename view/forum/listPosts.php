@@ -11,7 +11,7 @@ foreach($posts as $post)
 {
 ?>
     <p>
-        <?= $post->getUser()->getUsername()?>
+        <?= $post->getUser()->getUsername()?> <a href="index.php?ctrl=post&action=deletePost&id=<?= isset($_SESSION["admin"]) ? $post->getId() : ""?>"> X </a>
     </p>
     <p>
         <?= $post->getContent() ?>
