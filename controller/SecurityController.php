@@ -191,7 +191,7 @@ class HomeController extends AbstractController implements ControllerInterface
             }
             else
             {
-                $usernameSame = 0;
+                $emailSame = 0;
             }
 
             // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
@@ -200,6 +200,12 @@ class HomeController extends AbstractController implements ControllerInterface
             {
                 $success = 1;
                 $_SESSION["success"] = "Register complete";
+
+                //hashing password
+
+                $hashedPwd = password_hash($_POST["password"], PASSWORD_BCRYPT);
+                $_POST["password"] = $hashedPwd;
+
                 $userCtrl->addUser($_POST);
                 $this->redirectTo("home","index");
             }
