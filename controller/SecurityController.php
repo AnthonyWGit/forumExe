@@ -215,7 +215,46 @@ class HomeController extends AbstractController implements ControllerInterface
             }            
         }
     }
-
+    public function validateLogin()
+    {
+        if (isset($_SESSION["errors"])) unset($_SESSION["errors"]);
+        $errors = [];
+        $userCtrl = new UserManager(); //will need to fetch data 
+        foreach($_POST as $fieldName=>$item)
+        {
+            $sanitizedValue = filter_var($item, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            switch ($fieldName)
+            {
+                case "username":
+                    $usernameObject = $userCtrl->usernameFind($_POST["username"]);
+                    if (is_object($usernameObject))
+                    {
+                        $usernameCheck = 1;
+                    }
+                    else
+                    {
+                        $errors[] = "This username doesn't exists.";
+                        $_SESSION["errors"] = $errors;
+                        $this->redirectTo("security", "displayErrorPage");
+                    }
+                
+                case "password":
+                    if ($usernameCheck == 1)
+                    {
+                        $username = $usernameObject->getUsername();
+                        $password = $usernameObject->getPassword();
+                        var_dump(password_verify($password, PASSWORD_BCRYPT));
+                        echo 'success';
+                    }
+                    else
+                    {
+                        $errors[] = "This is not the good password.";
+                        $_SESSION["errors"] = $errors;
+                        $this->redirectTo("security", "displayErrorPage");
+                    }
+            }
+        }
+    }
 }
 
 
