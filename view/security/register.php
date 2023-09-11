@@ -6,7 +6,7 @@
     <label for="email">Email</label>
     <input type="email" id="register_email" name="email"/>
     <label for="password">Password</label>
-    <input type="text" id="register_username" name="password"/> 
+    <input type="text" id="register_password" name="password"/> 
     <label for="passwordConfirm">Password confirm</label>
     <input type="text" id="register_username_validate" name="validatePassword"/>
     <input type="submit" id="register_submit" value="Register"/>
