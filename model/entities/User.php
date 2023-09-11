@@ -61,7 +61,7 @@
         /**
          * Get the value of role
          */ 
-        public function hasRole()
+        public function getRole()
         {
                 return $this->role;
         }
@@ -131,5 +131,17 @@
         public function __toString()
         {
                 return $this->getUsername();
+        }
+
+        public function hasRole($roleName)
+        {
+                if ($_SESSION["user"]->getRole() == $roleName) // This is used to check if 
+                {
+                        return true;
+                }
+                else
+                {
+                        return false;
+                }
         }
     }
