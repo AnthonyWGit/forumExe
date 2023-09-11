@@ -104,4 +104,18 @@
                 $this->redirectTo("topic","listTopics",$_GET["id"]);
             }                
         }
+
+        public function deleteTopic()
+        {
+            if ($_SESSION["user"]->getRole() == "admin")
+            {
+                $topicManager = new TopicManager();
+            }
+            else
+            {
+                $errors = [];
+                $errors[] = "This is an exemple of an unauthorized action";
+                $this->redirectTo("security","displayErrorPage");
+            }
+        }
     }
