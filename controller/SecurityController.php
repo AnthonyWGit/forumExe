@@ -6,7 +6,8 @@ namespace Controller;
 use App\Session;
 use App\AbstractController;
 use App\ControllerInterface;
-Use Model\Managers\UserManager;
+use Model\Managers\UserManager;
+
 
 
 class HomeController extends AbstractController implements ControllerInterface
@@ -203,7 +204,7 @@ class HomeController extends AbstractController implements ControllerInterface
 
                 //hashing password
 
-                $hashedPwd = password_hash($_POST["password"], PASSWORD_BCRYPT);
+                $hashedPwd = password_hash($_POST["password"], PASSWORD_DEFAULT);
                 $_POST["password"] = $hashedPwd;
 
                 $userCtrl->addUser($_POST);
@@ -226,7 +227,8 @@ class HomeController extends AbstractController implements ControllerInterface
             switch ($fieldName)
             {
                 case "username":
-                    $usernameObject = $userCtrl->usernameFind($_POST["username"]);
+                    $usernameObject = $userCtrl->usernameFind($_POST["username"]); //We use the username of the post to find if we get a row in db
+                    $usernameString = $userCtrl->usernameFind($_POST["username"])->getUsername();
                     if (is_object($usernameObject))
                     {
                         $usernameCheck = 1;
@@ -237,14 +239,14 @@ class HomeController extends AbstractController implements ControllerInterface
                         $_SESSION["errors"] = $errors;
                         $this->redirectTo("security", "displayErrorPage");
                     }
+                    break;
                 
                 case "password":
                     if ($usernameCheck == 1)
                     {
-                        $username = $usernameObject->getUsername();
                         $password = $usernameObject->getPassword();
-                        var_dump(password_verify($password, PASSWORD_BCRYPT));
-                        echo 'success';
+                        $verify = password_verify($_POST["password"], $password);
+
                     }
                     else
                     {
@@ -252,7 +254,17 @@ class HomeController extends AbstractController implements ControllerInterface
                         $_SESSION["errors"] = $errors;
                         $this->redirectTo("security", "displayErrorPage");
                     }
+                    break;
             }
+        }
+
+        //We check our values to proceed to login
+
+        if ($verify && $usernameCheck == 1)
+        {
+            $sessionCtrl = new Session();
+            $sessionCtrl->setUser($usernameObject);
+            $this->redirectTo("home","index");
         }
     }
 }
