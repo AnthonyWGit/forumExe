@@ -267,6 +267,13 @@ class HomeController extends AbstractController implements ControllerInterface
             $this->redirectTo("home","index");
         }
     }
+
+
+    public function logout()
+    {
+        unset($_SESSION["user"]);
+        $this->redirectTo("home", "index");
+    }
 }
 
 
