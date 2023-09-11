@@ -1,11 +1,11 @@
-<h2>Register form</h2>
+<h2>login form</h2>
 
-<form method="post" action="index.php?ctrl=security&action=validateForm" id="register_form" class="registerForm">
+<form method="post" action="index.php?ctrl=security&action=validateLogin" id="login_form" class="loginForm">
     <label for="username">Username</label>
-    <input type="text" id="register_username" name="username"/>
+    <input type="text" id="login_username" name="username"/>
     <label for="password">Password</label>
-    <input type="text" id="register_username" name="password"/> 
-    <input type="submit" id="register_submit" value="Login"/>
+    <input type="text" id="login_password" name="password"/> 
+    <input type="submit" id="login_submit" value="Login"/>
     <p>Lost password ?</p>
     <p>Lost username ?</p>
 </form>
