@@ -71,4 +71,24 @@
             $param["id"] = $idTopic;
             DAO::update($sql,$param);
         }
+
+        public function addCountUp($idTopic)
+        {
+            $sql = "UPDATE topic
+                    SET posts = (posts + 1);
+                    where id_topic = :id";
+            $param = [];
+            $param["id"] = $idTopic;
+            DAO::update($sql,$param);
+        }
+
+        public function deleteAllPosts($idTopic)
+        {
+            $postsList = $this->findPostsInTopic($idTopic);
+            foreach ($postsList as $post)
+            {
+                $idPost = $post->getId();
+                $this->delete($idPost);
+            }
+        }
     }
