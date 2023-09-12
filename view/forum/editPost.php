@@ -30,9 +30,9 @@ foreach($posts as $post)
 <form id="post_form" method="post" action="index.php?ctrl=post&action=editConfirm&id=<?= $_GET["id"] ?>">
 
     <label for="makePost">Post Content</label> 
-    <textarea id="makePost" name="makePost"><?=$content?></textarea>
+    <textarea id="makePost" name="postContent"><?=$content?></textarea>
 
-    <input type="submit" id="post_validate" value="New Post"/>
+    <input type="submit" id="post_validate" value="validate"/>
 </form>
 </div>
 
