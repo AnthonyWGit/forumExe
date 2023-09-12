@@ -79,7 +79,7 @@
         {
             $sql = "UPDATE topic
                     SET posts = (posts - 1);
-                    where id_topic = :id";
+                    WHERE id_topic = :id";
             $param = [];
             $param["id"] = $idTopic;
             DAO::update($sql,$param);
@@ -89,7 +89,7 @@
         {
             $sql = "UPDATE topic
                     SET posts = (posts + 1);
-                    where id_topic = :id";
+                    WHERE id_topic = :id";
             $param = [];
             $param["id"] = $idTopic;
             DAO::update($sql,$param);
