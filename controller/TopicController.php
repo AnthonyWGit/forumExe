@@ -29,15 +29,27 @@
         {
 
             $topicManager = new TopicManager();
-
-            return [
-                "view" => VIEW_DIR."forum/listTopics.php",
-                "data" => [
-                    "topics" => $topicManager->findTopicsByCategory($_GET["id"])
-                    ]
-                ];
-            
-
+            $idCat = $_GET["id"];
+            $categortManager = new CategoryManager();
+            $catExists = $categortManager->findACategortyId($idCat);
+            if ($catExists == false)
+            {
+                if (isset($_SESSION["errors"])) unset($_SESSION["errors"]);
+                $errors = [];
+                $errors[] = "This page doesn't exists";
+                $_SESSION["errors"] = $errors;
+                $this->redirectTo("security", "displayErrorPage");
+            }
+            else
+            {
+                return [
+                    "view" => VIEW_DIR."forum/listTopics.php",
+                    "data" => [
+                        "topics" => $topicManager->findTopicsByCategory($_GET["id"])
+                        ]
+                    ];
+                                
+            }
         }
 
         public function newTopic()
