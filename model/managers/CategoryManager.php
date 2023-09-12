@@ -15,4 +15,15 @@
             parent::connect();
         }
 
+        public function findACategortyId($idCat)
+        {
+            $sql = "SELECT *
+            FROM ".$this->tableName. " p
+            WHERE p.id_category = :idCat";
+        
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['idCat'=>$idCat], false),
+                $this->className
+            );
+        }
     }
