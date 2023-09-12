@@ -4,8 +4,12 @@ $posts = $result["data"]["posts"]; //$posts contains generator objects. Preperti
 $topic = $posts->current()->getTopic(); //current() allows us to access properties of the current objet. 
 //We use it before foreaching so we will always access properties of the first object
 //In this forum a topic will always have a post otherwise it doesn't exist so no problem
-
+$lockState = $posts->current()->getTopic()->getLock();
 ?>
+
+<?= $lockState == 1 ? " <p> This topic has been locked </p>" : ""?>
+
+
 <?php
 echo $topic->getTitle();
 foreach($posts as $post)
@@ -22,6 +26,12 @@ foreach($posts as $post)
     <?php
 }
 ?>
+
+<?php
+if ($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) //admin has no restrictions and can bypass everything
+{
+?>
+
 <h2 id="new_post"> New Post Creation </h2>
 
 <div class="postForm">
@@ -34,5 +44,9 @@ foreach($posts as $post)
 </form>
 </div>
 
-  
+<?php
+}
+?>
+
+
 

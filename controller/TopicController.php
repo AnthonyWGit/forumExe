@@ -45,7 +45,8 @@
                 return [
                     "view" => VIEW_DIR."forum/listTopics.php",
                     "data" => [
-                        "topics" => $topicManager->findTopicsByCategory($_GET["id"])
+                        "topics" => $topicManager->findTopicsByCategory($_GET["id"]),
+                        "topicId" => $topicManager->findTopicsByCategory($_GET["id"])
                         ]
                     ];
                                 
