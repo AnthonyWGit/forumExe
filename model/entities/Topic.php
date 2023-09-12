@@ -9,7 +9,7 @@
         private $title;
         private $user;
         private $creationDate;
-        private $closed;
+        private $lock;
         private $category;
         private $posts;
 
@@ -90,9 +90,9 @@
         /**
          * Get the value of closed
          */ 
-        public function getClosed()
+        public function getLock()
         {
-                return $this->closed;
+                return $this->lock;
         }
 
         /**
@@ -100,9 +100,9 @@
          *
          * @return  self
          */ 
-        public function setClosed($closed)
+        public function setLock($lock)
         {
-                $this->closed = $closed;
+                $this->lock = $lock;
 
                 return $this;
         }
