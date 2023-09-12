@@ -40,6 +40,7 @@
             $data = ["user_id" => $_SESSION["user"]->getId(), "topic_id" => $_GET["id"], "content"=>$sanitizedPost];
             $postManager = new PostManager();
             $postManager->add($data);
+            $postManager->addCountUp($_GET["id"]);
             $this->redirectTo("post", "listPosts", $_GET["id"]);
         }
 
@@ -64,8 +65,10 @@
                 $nbPosts = $count;
                 if (isset($_SESSION["messagePop"]) && ($_SESSION["messagePop"] == 1)) // here it mean there is only one msg and user saw flash msg
                 {
-                    $postManager->deletePost($_GET["id"]);
+                    $postManager->deletePost($idPost);
+                    $topicManager->deleteTopic($idTopic);
                     if (isset($_SESSION["messagePop"])) unset($_SESSION["messagePop"]); //delete messagePop
+                    SESSION::addFlash("success", "This post has been reduced to nothing");
                     $this->redirectTo("topic","listTopics",$idCategort);
                 }
                 else if ($nbPosts == 1 && !isset($_SESSION["messagePop"])) 
