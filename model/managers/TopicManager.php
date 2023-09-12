@@ -27,9 +27,25 @@
             );
         }
         
-
+        public function findOneCategoryFromTopic($idTopic)
+        {
+            $sql = "SELECT *
+            FROM ".$this->tableName. " p
+            WHERE p.id_topic = :id";
+        
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$idTopic], false),
+                $this->className
+            );
+                }
+        
         public function createNewTopic($data) //we need to id to know in wich category we create the topic
         {
             return $this->add($data);
+        }
+
+        public function deleteTopic($id)
+        {
+            $this->delete($id);
         }
     }
