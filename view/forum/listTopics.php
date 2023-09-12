@@ -22,7 +22,10 @@ else
     {
 
         ?>
-        <p><a href="index.php?ctrl=post&action=listPosts&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a></p>
+        <p>
+            <a href="index.php?ctrl=post&action=listPosts&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a> 
+            <?= (isset($_SESSION["user"]) && $_SESSION["user"] == "admin") ? '<a href="index.php?ctrl=topic&action=deleteTopic&id='.$topic->getId().'"> X  </a>' : ''?> 
+        </p> 
         <?php
     }    
 }
