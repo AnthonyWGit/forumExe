@@ -40,6 +40,19 @@
             );
         }
 
+        public function findAPostByIdAndTopicId($idPost)
+        {
+            $sql = "SELECT *
+            FROM ".$this->tableName. " p
+            WHERE p.id_post = :id_post";
+        
+        return $this->getOneOrNullResult(
+            DAO::select($sql, ['id_post' => $idPost], false),
+            $this->className
+            );
+        }
+        
+
         public function createNewPost($dataPost)
         {
             $this->add($dataPost);
