@@ -7,6 +7,7 @@
     use App\ControllerInterface;
     use Model\Managers\TopicManager;
     use Model\Managers\PostManager;
+    use Model\Managers\CategoryManager;
     
     class TopicController extends AbstractController implements ControllerInterface
     {
@@ -110,6 +111,23 @@
             if ($_SESSION["user"]->getRole() == "admin")
             {
                 $topicManager = new TopicManager();
+                $categortManager = new CategoryManager();
+                $postManager = new PostManager();
+                $idCategort = $topicManager->findOneCategoryFromTopic($_GET["id"])->getCategory()->getId();
+                if (isset($_SESSION["warning"]) && $_SESSION["warning"] == 1) //Case when there are still posts in the topic and the msg has  been displayed 
+                {
+                    unset($_SESSION["warning"]);
+                    SESSION::addFlash("success", "Topic has been erased from existence");
+                    $postManager->deleteAllPosts($_GET["id"]);
+                    $topicManager->deleteTopic($_GET["id"]);
+                    $this->redirectTo("topic","listTopics", $idCategort);
+                }
+                else // when there are still multiple posts in topic and msg has not been displayed
+                {
+                    $_SESSION["warning"] = 1;
+                    SESSION::addFlash("success", "This topic has content in it. Click the delete button again to confirm");
+                    $this->redirectTo("topic","listTopics", $idCategort);
+                }
             }
             else
             {
