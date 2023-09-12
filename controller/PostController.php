@@ -26,7 +26,33 @@
                 ]
                 ];
             
+        }
 
+        public function editPost()
+        {
+            $postManager = new PostManager();
+            $idPost = $_GET["id"];
+            $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
+            $postManager = new PostManager();
+            
+            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+            {
+                SESSION::addFlash("error" , "You vile person");
+                $this->redirectTo("home","index");
+            }
+            else
+            {
+                $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
+                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();     
+                return [
+                    "view" => VIEW_DIR."forum/editPost.php",
+                    "data" => [
+                        "posts" => $postManager->findPostsInTopic($idTopic),
+                        "idPost" => $idTopic,
+                        "content" => $postManager->findAPostByIdAndTopicId($idPost)->getContent()
+                    ]
+                    ];                          
+            }       
         }
 
         public function newPost()
@@ -91,6 +117,29 @@
                 $errors[] = "This is an exemple of an unauthorized action";
                 $this->redirectTo("security","displayErrorPage");
             }
+            
+        }
+
+        public function edit()
+        {
+            $idPost = $_GET["id"];
+            $postManager = new PostManager();
+            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+            {
+                SESSION::addFlash("error" , "You vile person");
+                $this->redirectTo("home","index");
+            }
+            else
+            {
+                $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
+                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
+                $this->redirectTo("post","editPost",$idPost);                
+            }        
+
+        }
+
+        public function editConfirm()
+        {
             
         }
         // public function topicTitleDisplay()
