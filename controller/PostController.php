@@ -18,41 +18,62 @@
         public function listPosts()
         {
             $postManager = new PostManager();
+            $postObject = $postManager->findPostsInTopicOneOrNull($_GET["id"]);
+            if(!$postObject)
+            {
+                $errors = [];
+                $errors[] = "This page doesn't exists";
+                $_SESSION["errors"] = $errors;
+                $this->redirectTo("security","displayErrorPage");
+            }
+            else
+            {
+                return [
+                    "view" => VIEW_DIR."forum/listPosts.php",
+                    "data" => [
+                        "posts" => $postManager->findPostsInTopic($_GET["id"]),
+                    ]
+                    ];
+                                
+            }
 
-            return [
-                "view" => VIEW_DIR."forum/listPosts.php",
-                "data" => [
-                    "posts" => $postManager->findPostsInTopic($_GET["id"]),
-                ]
-                ];
-            
         }
 
         public function editPost()
         {
             $postManager = new PostManager();
             $idPost = $_GET["id"];
-            $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
-            $postManager = new PostManager();
-            
-            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+
+            if (!$postManager->findAPostByIdAndTopicId($idPost)) //The post doesn't exists
             {
-                SESSION::addFlash("error" , "You vile person");
-                $this->redirectTo("home","index");
+                $errors = [];
+                $errors[] = "This page doesn't exists";
+                $_SESSION["errors"] = $errors;
+                $this->redirectTo("security","displayErrorPage");
             }
-            else
+            else //the post exists
             {
-                $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
-                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();     
-                return [
-                    "view" => VIEW_DIR."forum/editPost.php",
-                    "data" => [
-                        "posts" => $postManager->findPostsInTopic($idTopic),
-                        "idPost" => $idTopic,
-                        "content" => $postManager->findAPostByIdAndTopicId($idPost)->getContent()
-                    ]
-                    ];                          
-            }       
+                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();                
+                if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+                {
+                    SESSION::addFlash("error" , "You vile person");
+                    $this->redirectTo("home","index");
+                }
+                else
+                {
+                    $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
+                    $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();     
+                    return [
+                        "view" => VIEW_DIR."forum/editPost.php",
+                        "data" => [
+                            "posts" => $postManager->findPostsInTopic($idTopic),
+                            "idPost" => $idTopic,
+                            "content" => $postManager->findAPostByIdAndTopicId($idPost)->getContent()
+                        ]
+                        ];                          
+                }                    
+            }
+   
         }
 
         public function newPost()
