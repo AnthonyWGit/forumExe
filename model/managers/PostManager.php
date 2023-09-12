@@ -40,7 +40,7 @@
             );
         }
 
-        public function findAPostByIdAndTopicId($idPost)
+        public function findAPostByIdAndTopicId($idPost) 
         {
             $sql = "SELECT *
             FROM ".$this->tableName. " p
