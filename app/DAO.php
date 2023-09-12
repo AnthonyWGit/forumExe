@@ -63,7 +63,7 @@
                 echo $e->getMessage();
             }
         }
-        
+
         public static function delete($sql, $params){
             try{
                 $stmt = self::$bdd->prepare($sql);
