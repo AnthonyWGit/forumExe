@@ -104,4 +104,16 @@
                 $this->delete($idPost);
             }
         }
+
+        public function editPostContent($idPost, $content)
+        {
+
+            $sql = "UPDATE post  
+            SET content = :content
+            WHERE id_post = :id2";
+            $param = [];
+            $param["content"] = $content;
+            $param["id2"] = $idPost;
+            DAO::update($sql,$param);
+        }
     }
