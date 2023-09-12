@@ -78,6 +78,7 @@
                 else if ($nbPosts > 1 && !isset($_SESSION["messagePop"]))
                 {//there is more than one post and so message to del last post in not set 
                     $postManager->deletePost($_GET["id"]);
+                    $postManager->deleteCountDown($idTopic);
                     $this->redirectTo("post","listPosts",$idTopic);
                 }
             }
