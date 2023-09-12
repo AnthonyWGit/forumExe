@@ -11,6 +11,7 @@
         private $username;
         private $role;
         private $registerDate;
+        private $registerDateObject;
         private $password;
         private $email;
 
@@ -78,12 +79,17 @@
                 return $this;
         }
 
-        public function gstRegisterDate(){
+        public function getRegisterDateObject()
+        {
+                return $this->registerDateObject;
+        }
+
+        public function getRegisterDate(){
             $formattedDate = $this->registerDate->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function getRegisterDate($date){
+        public function setRegisterDate($date){
             $this->creationdate = new \DateTime($date);
             return $this;
         }
