@@ -26,6 +26,7 @@
                 $this->className
             );
         }
+        
 
         public function createNewTopic($data) //we need to id to know in wich category we create the topic
         {
