@@ -145,6 +145,65 @@
             {
                 $errors = [];
                 $errors[] = "This is an exemple of an unauthorized action";
+                $_SESSION["errors"];
+                $this->redirectTo("security","displayErrorPage");
+            }
+        }
+
+        public function lockTopic()
+        {
+            if (isset ($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin")
+            {
+                $idTopic = $_GET["id"];
+                $topicManager = new TopicManager();
+                $topicManager->lock($idTopic);  
+                if (!$topicManager->findOneCategoryFromTopic($idTopic)) // in case we want to lock a topic that doesn"t exists
+                {
+                    $errors = [];
+                    $errors[] = "This is an exemple of an unauthorized action";
+                    $_SESSION["errors"] = $errors;
+                    $this->redirectTo("security","displayErrorPage");        
+                }
+                else
+                {
+                    $idCat = $topicManager->findOneCategoryFromTopic($idTopic)->getCategory()->getId();
+                    $this->redirectTo("topic", "listTopics", $idCat);                
+                }
+            }
+            else
+            {
+                $errors = [];
+                $errors[] = "This is an exemple of an unauthorized action";
+                $_SESSION["errors"] = $errors;
+                $this->redirectTo("security","displayErrorPage");
+            }
+        }
+
+        public function unlockTopic()
+        {
+            if (isset ($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin")
+            {
+                $idTopic = $_GET["id"];
+                $topicManager = new TopicManager();
+                $topicManager->unlock($idTopic);
+                if (!$topicManager->findOneCategoryFromTopic($idTopic)) // in case we want to lock a topic that doesn"t exists
+                {
+                    $errors = [];
+                    $errors[] = "This is an exemple of an unauthorized action";
+                    $_SESSION["errors"];
+                    $this->redirectTo("security","displayErrorPage");        
+                }
+                else
+                {
+                    $idCat = $topicManager->findOneCategoryFromTopic($idTopic)->getCategory()->getId();
+                    $this->redirectTo("topic", "listTopics", $idCat);                
+                }
+            }
+            else
+            {
+                $errors = [];
+                $errors[] = "This is an exemple of an unauthorized action";
+                $_SESSION["errors"];
                 $this->redirectTo("security","displayErrorPage");
             }
         }
