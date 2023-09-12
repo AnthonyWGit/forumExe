@@ -12,7 +12,9 @@ foreach($posts as $post)
 {
 ?>
     <p>
-        <?= $post->getUser()->getUsername()?> <?= (isset($_SESSION["user"]) && $_SESSION["user"] == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?> 
+        <?= $post->getUser()->getUsername()?>
+        <?= (isset($_SESSION["user"]) && $_SESSION["user"] == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
+        <?= (isset($_SESSION["user"]) && $_SESSION["user"] == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
     </p>
     <p>
         <?= $post->getContent() ?>
