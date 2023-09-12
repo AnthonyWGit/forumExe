@@ -48,4 +48,24 @@
         {
             $this->delete($id);
         }
+
+        public function lock($idTopic)
+        { //LOCK is reserved keyword we need aliases
+            $sql = "UPDATE topic as t
+            SET t.lock = 1
+            WHERE id_topic = :id";
+            $param = [];
+            $param["id"] = $idTopic;
+            DAO::update($sql,$param);            
+        }
+
+        public function unlock($idTopic)
+        {
+            $sql = "UPDATE topic as t
+            SET t.lock = '0'
+            WHERE id_topic = :id";
+            $param = [];
+            $param["id"] = $idTopic;
+            DAO::update($sql,$param);            
+        }
     }
