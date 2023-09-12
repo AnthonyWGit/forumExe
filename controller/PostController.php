@@ -133,14 +133,22 @@
             {
                 $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
                 $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
-                $this->redirectTo("post","editPost",$idPost);                
+                $this->redirectTo("post","editPost",$idPost);
             }        
 
         }
 
         public function editConfirm()
         {
-            
+            $postManager = new PostManager();
+            $idPost = $_GET["id"]; 
+            $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
+            //sanitize the post input and get rid of spaces 
+            $sanitizedPostContent = filter_var($_POST["postContent"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $trimedSanitizedPostContent = trim($sanitizedPostContent);
+            $postManager->editPostContent($idPost, $trimedSanitizedPostContent);
+            SESSION::addFlash("success","Post has been updated");
+            $this->redirectTo("post","listPosts",$idTopic);
         }
         // public function topicTitleDisplay()
         // {
