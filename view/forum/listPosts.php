@@ -4,6 +4,7 @@ $posts = $result["data"]["posts"]; //$posts contains generator objects. Preperti
 $topic = $posts->current()->getTopic(); //current() allows us to access properties of the current objet. 
 //We use it before foreaching so we will always access properties of the first object
 //In this forum a topic will always have a post otherwise it doesn't exist so no problem
+
 ?>
 <?php
 echo $topic->getTitle();
@@ -11,7 +12,7 @@ foreach($posts as $post)
 {
 ?>
     <p>
-        <?= $post->getUser()->getUsername()?> <a href="index.php?ctrl=post&action=deletePost&id=<?= isset($_SESSION["admin"]) ? $post->getId() : ""?>"> X </a>
+        <?= $post->getUser()->getUsername()?> <?= (isset($_SESSION["user"]) && $_SESSION["user"] == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?> 
     </p>
     <p>
         <?= $post->getContent() ?>
