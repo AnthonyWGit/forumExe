@@ -28,6 +28,18 @@
             );
         }
 
+        public function findAllPostsFromUser($idUser)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.user_id = :id";
+                
+            return $this->getMultipleResults(
+                DAO::select($sql, ['id'=>$idUser]),
+                $this->className
+            );
+        }
+
         public function findPostsInTopicOneOrNull($id)
         {
             $sql = "SELECT *
