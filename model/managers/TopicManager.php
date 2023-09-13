@@ -46,7 +46,7 @@
 
         public function deleteTopic($id)
         {
-            $this->delete($id);
+            return $this->delete($id);
         }
 
         public function lock($idTopic)
