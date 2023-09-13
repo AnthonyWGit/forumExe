@@ -16,7 +16,7 @@ foreach($posts as $post)
 {
 ?>
     <p>
-        <?= $post->getUser()->getUsername()?>
+        <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"] == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
     </p>
