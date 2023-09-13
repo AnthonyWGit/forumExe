@@ -53,8 +53,9 @@
             }
             else //the post exists
             {
-                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();                
-                if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+                $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
+                // Using ||Because when the topic is locked no route to edit post should be open 
+                if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1) 
                 {
                     SESSION::addFlash("error" , "You vile person");
                     $this->redirectTo("home","index");
@@ -83,12 +84,20 @@
 
             //trimming spaces 
             $sanitizedPost = trim($sanitizedPost);
-
+            $sanitizedPost = trim($sanitizedPost, chr(0xC2).chr(0xA0));
             $data = ["user_id" => $_SESSION["user"]->getId(), "topic_id" => $_GET["id"], "content"=>$sanitizedPost];
             $postManager = new PostManager();
-            $postManager->add($data);
-            $postManager->addCountUp($_GET["id"]);
-            $this->redirectTo("post", "listPosts", $_GET["id"]);
+            if (empty($sanitizedPost))
+            {
+                SESSION::addFlash("error","Post cannot be empty");
+                $this->redirectTo("post","listPosts",$_GET["id"]);
+            }
+            else
+            {
+                $postManager->add($data);                
+                $postManager->addCountUp($_GET["id"]);
+                $this->redirectTo("post", "listPosts", $_GET["id"]);                
+            }
         }
 
         public function deletePost()
@@ -145,7 +154,7 @@
         {
             $idPost = $_GET["id"];
             $postManager = new PostManager();
-            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername())
+            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
             {
                 SESSION::addFlash("error" , "You vile person");
                 $this->redirectTo("home","index");
@@ -164,12 +173,22 @@
             $postManager = new PostManager();
             $idPost = $_GET["id"]; 
             $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
-            //sanitize the post input and get rid of spaces 
-            $sanitizedPostContent = filter_var($_POST["postContent"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $trimedSanitizedPostContent = trim($sanitizedPostContent);
-            $postManager->editPostContent($idPost, $trimedSanitizedPostContent);
-            SESSION::addFlash("success","Post has been updated");
-            $this->redirectTo("post","listPosts",$idTopic);
+            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
+            {
+                SESSION::addFlash("error","Something wrong happpenned");
+                $this->redirectTo("home","index");                
+            }
+            else
+            {
+                //sanitize the post input and get rid of spaces 
+                $sanitizedPostContent = filter_var($_POST["postContent"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                $trimedSanitizedPostContent = trim($sanitizedPostContent);
+                $trimedSanitizedPostContent = trim($trimedSanitizedPostContent, chr(0xC2).chr(0xA0)); //Doesn't work, trying to remove nbsp 
+                $postManager->editPostContent($idPost, $trimedSanitizedPostContent);
+                SESSION::addFlash("success","Post has been updated");
+                $this->redirectTo("post","listPosts",$idTopic);        
+            }
+
         }
         // public function topicTitleDisplay()
         // {
