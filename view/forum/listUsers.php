@@ -1,17 +1,20 @@
 <?php
 
-$topics = $result["data"]['topics'];
+$users = $result["data"]['users'];
     
 ?>
 
 <h1>Users list</h1>
 
 <?php
-foreach($topics as $topic )
+foreach($users as $user )
 {
 
     ?>
-    <p><?=$topic->getTitle()?></p>
+    <p>
+        <?=$user->getUsername()?>
+        <?=$user->getRegisterDate()?>
+    </p>
     <?php
 }
 
