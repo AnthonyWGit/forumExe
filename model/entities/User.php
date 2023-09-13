@@ -15,6 +15,7 @@
         private string $password;
         private string $email;
         private string $state;
+        private $bandate;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -169,6 +170,17 @@
                 }
         }
         
+        public function getBanDate() 
+        {
+            $formattedDate = $this->bandate->format("d/m/Y, H:i:s");
+            return $formattedDate;
+        }
+
+        // public function setBanDate($date)
+        // {
+        //     $this->bandate = new \DateTime($date);
+        //     return $this;
+        // }
         
         //If no tostring the app will crash because in layout we echo the object
         public function __toString()

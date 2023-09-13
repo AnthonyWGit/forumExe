@@ -76,7 +76,7 @@
         public function banUser($idUser)
         {
             $sql = "UPDATE user as s
-                    SET s.state = :prepare
+                    SET s.state = :prepare , banDate = CURRENT_TIMESTAMP()
                     WHERE id_user = :id";
             $param = [];
             $param["id"] = $idUser;
@@ -87,7 +87,7 @@
         public function unbanUser($idUser)
         {
             $sql = "UPDATE user as s
-                    SET s.state = :prepare
+                    SET s.state = :prepare , banDate = NULL
                     WHERE id_user = :id";
             $param = [];
             $param["id"] = $idUser;
