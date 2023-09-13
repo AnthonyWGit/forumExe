@@ -10,7 +10,7 @@
         private $id;
         private $username;
         private $role;
-        private $registerDate;
+        private $creationdate;
         private $registerDateObject;
         private $password;
         private $email;
@@ -81,11 +81,11 @@
 
         public function getRegisterDateObject()
         {
-                return $this->registerDateObject;
+                return $this->creationdate;
         }
 
         public function getRegisterDate(){
-            $formattedDate = $this->registerDate->format("d/m/Y, H:i:s");
+            $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
