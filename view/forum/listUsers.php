@@ -13,10 +13,12 @@ foreach($users as $user )
     ?>
     <p>
         <?=$user->getUsername()?>
-        <?=$user->getRegisterDate()?>
+        <?=$user->getRegisterDate()?> 
+        </br>
+        <a href = "index.php?ctrl=admin&action=topicsCreated&id=<?=$user->getId()?> ">See topics</a>&nbsp;Mute&nbsp;Ban
     </p>
     <?php
 }
-
+?>
 
   
