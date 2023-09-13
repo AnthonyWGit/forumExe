@@ -27,7 +27,7 @@
         //Block above shows all topics fromm all categories 
         public function listTopics()
         {
-
+            if (SESSION::isBanned()) $this->redirectTo("home","index");
             $topicManager = new TopicManager();
             $idCat = $_GET["id"];
             $categortManager = new CategoryManager();
@@ -55,6 +55,7 @@
 
         public function newTopic()
         {
+            if (SESSION::isBanned()) $this->redirectTo("home","index");
             //Creating managers
             $topicManager = new TopicManager();
             $postManager = new PostManager();
@@ -121,6 +122,7 @@
 
         public function deleteTopic()
         {
+            if (SESSION::isBanned()) $this->redirectTo("home","index");
             if (SESSION::isAdmin() || SESSION::isMod())
             {
                 $topicManager = new TopicManager();
@@ -153,6 +155,7 @@
 
         public function lockTopic()
         {
+            if (SESSION::isBanned()) $this->redirectTo("home","index");
             if (isset ($_SESSION["user"]) && (SESSION::isAdmin() || SESSION::isMod()))
             {
                 $idTopic = $_GET["id"];
@@ -182,6 +185,7 @@
 
         public function unlockTopic()
         {
+            if (SESSION::isBanned()) $this->redirectTo("home","index");
             if (isset ($_SESSION["user"]) && (SESSION::isAdmin() || SESSION::isMod()))
             {
                 $idTopic = $_GET["id"];
