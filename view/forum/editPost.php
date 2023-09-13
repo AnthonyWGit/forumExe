@@ -1,4 +1,18 @@
+
 <?php
+
+
+//This file is not used and has been rended obselete
+
+
+
+
+
+
+
+
+
+
 
 $posts = $result["data"]["posts"]; //$posts contains generator objects. Preperties of those can only be accessed by doing iterations over them
 $topic = $posts->current()->getTopic(); //current() allows us to access properties of the current objet. 
