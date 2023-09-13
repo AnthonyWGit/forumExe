@@ -7,13 +7,14 @@
 
     final class User extends Entity{
 
-        private $id;
-        private $username;
-        private $role;
-        private $creationdate;
-        private $registerDateObject;
-        private $password;
-        private $email;
+        private int $id;
+        private string $username;
+        private string $role;
+        private Object $creationdate;
+        private Object $registerDateObject;
+        private string $password;
+        private string $email;
+        private string $state;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -22,7 +23,7 @@
         /**
          * Get the value of id
          */ 
-        public function getId()
+        public function getId() : int
         {
                 return $this->id;
         }
@@ -32,7 +33,7 @@
          *
          * @return  self
          */ 
-        public function setId($id)
+        public function setId(int $id)
         {
                 $this->id = $id;
 
@@ -42,7 +43,7 @@
         /**
          * Get the value of username
          */ 
-        public function getUsername()
+        public function getUsername() : string
         {
                 return $this->username;
         }
@@ -52,7 +53,7 @@
          *
          * @return  self
          */ 
-        public function setUsername($username)
+        public function setUsername(string $username)
         {
                 $this->username = $username;
 
@@ -62,7 +63,7 @@
         /**
          * Get the value of role
          */ 
-        public function getRole()
+        public function getRole() : string
         {
                 return $this->role;
         }
@@ -72,24 +73,26 @@
          *
          * @return  self
          */ 
-        public function setRole($role)
+        public function setRole(string $role)
         {
                 $this->role = $role;
 
                 return $this;
         }
 
-        public function getRegisterDateObject()
+        public function getRegisterDateObject() : Object
         {
                 return $this->creationdate;
         }
 
-        public function getRegisterDate(){
+        public function getRegisterDate() : string
+        {
             $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function setRegisterDate($date){
+        public function setRegisterDate(string $date)
+        {
             $this->creationdate = new \DateTime($date);
             return $this;
         }
@@ -97,7 +100,7 @@
         /**
          * Get the value of password
          */ 
-        public function getPassword()
+        public function getPassword() : string
         {
                 return $this->password;
         }
@@ -107,7 +110,7 @@
          *
          * @return  self
          */ 
-        public function setPassword($password)
+        public function setPassword(string $password)
         {
                 $this->password = $password;
 
@@ -117,7 +120,7 @@
         /**
          * Get the value of email
          */ 
-        public function getEmail()
+        public function getEmail() : string 
         {
                 return $this->email;
         }
@@ -127,19 +130,34 @@
          *
          * @return  self
          */ 
-        public function setEmail($email)
+        public function setEmail(string $email)
         {
                 $this->email = $email;
 
                 return $this;
         }
-        //If no tostring the app will crash because in layout we echo the object
-        public function __toString()
+
+                /**
+         * Get the value of state
+         */ 
+        public function getState() : string 
         {
-                return $this->getUsername();
+                return $this->state;
         }
 
-        public function hasRole($roleName)
+        /**
+         * Set the value of state
+         *
+         * @return  self
+         */ 
+        public function setState(string $state)
+        {
+                $this->state = $state;
+
+                return $this;
+        }
+
+        public function hasRole(string $roleName)
         {
                 if ($_SESSION["user"]->getRole() == $roleName) // This is used to check if 
                 {
@@ -150,4 +168,12 @@
                         return false;
                 }
         }
+        
+        
+        //If no tostring the app will crash because in layout we echo the object
+        public function __toString()
+        {
+                return $this->getUsername();
+        }
+
     }
