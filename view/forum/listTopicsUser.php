@@ -12,7 +12,7 @@ foreach($topics as $topic)
 
     ?>
     <p>
-        <?= $topic->getTitle() ?>
+        <a href="index.php?ctrl=post&action=listPosts&id=<?=$topic->getId()?>"><?= $topic->getTitle() ?></a>
     </p>
     <?php
 }

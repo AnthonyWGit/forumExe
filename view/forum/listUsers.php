@@ -15,7 +15,9 @@ foreach($users as $user )
         <?=$user->getUsername()?>
         <?=$user->getRegisterDate()?> 
         </br>
+        <a href = "index.php?ctrl=admin&action=postsCreated&id=<?=$user->getId()?> ">See posts</a> &nbsp;
         <a href = "index.php?ctrl=admin&action=topicsCreated&id=<?=$user->getId()?> ">See topics</a>&nbsp;Mute&nbsp;Ban
+
     </p>
     <?php
 }
