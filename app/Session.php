@@ -44,4 +44,11 @@
             return false;
         }
 
+        public static function isMod(){
+            if(self::getUser() && self::getUser()->hasRole("mod")){
+                return true;
+            }
+            return false;
+        }
+
     }
