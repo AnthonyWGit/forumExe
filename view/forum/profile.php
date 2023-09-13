@@ -9,7 +9,7 @@ $creationDate = $result["data"]["creationDate"];
 
 <p>Email : <?=$email?></p>
 
-<p>You joined the forum on <?=$creationDate->format("d/m/Y, H:i:s")?></p>
+<p>You joined the forum on <?=$creationDate?></p>
 
 <p>
     <button>Change your credentials</button>
