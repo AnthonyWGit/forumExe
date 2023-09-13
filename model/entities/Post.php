@@ -8,8 +8,10 @@
         private $id;
         private $content;
         private $user;
-        private $postDate;
+        private $creationdate;
         private $topic;
+        private $edit;
+        private $editDate;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -75,14 +77,30 @@
                 return $this;
         }
 
+        public function getCreationdateObject(){
+                $formattedDate = $this->creationdate;
+                return $formattedDate;
+            }
+
         public function getCreationdate(){
-            $formattedDate = $this->creationDate->format("d/m/Y, H:i:s");
+            $formattedDate = $this->editDate->format("d/m/Y H:i:s");
             return $formattedDate;
         }
 
         public function setCreationdate($date){
-            $this->creationDate = new \DateTime($date);
+            $this->editDate = new \DateTime($date);
             return $this;
+        }
+
+        public function getEditDate()
+        {
+                $formattedDate = $this->creationdate->format("d/m/Y H:i:s");
+                return $formattedDate;
+        }
+    
+        public function setEditDate($date){
+        $this->creationdate = new \DateTime($date);
+        return $this;
         }
 
         /**

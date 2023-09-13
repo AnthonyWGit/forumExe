@@ -107,13 +107,14 @@
 
         public function editPostContent($idPost, $content)
         {
-
+            //edit content with edit count and update timestamp
             $sql = "UPDATE post  
-            SET content = :content
+            SET content = :content, edit = edit + 1, editDate = CURRENT_TIMESTAMP()
             WHERE id_post = :id2";
             $param = [];
             $param["content"] = $content;
             $param["id2"] = $idPost;
             DAO::update($sql,$param);
+
         }
     }
