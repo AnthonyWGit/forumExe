@@ -5,6 +5,8 @@ $topic = $posts->current()->getTopic(); //current() allows us to access properti
 //We use it before foreaching so we will always access properties of the first object
 //In this forum a topic will always have a post otherwise it doesn't exist so no problem
 $lockState = $posts->current()->getTopic()->getLock();
+if (isset($result["data"]["edit"])) $edit = ($result["data"]["edit"]); //Check edit variables to use edit variables if we are in that case 
+if (isset($result["data"]["content"])) $content = $result["data"]["content"];
 ?>
 
 <?= $lockState == 1 ? " <p> This topic has been locked </p>" : ""?>
@@ -18,7 +20,7 @@ foreach($posts as $post)
     <p>
         <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
-        <?= (isset($_SESSION["user"]) && $_SESSION["user"] == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
+        <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getUsername() == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
     </p>
     <p>
         <?= $post->getContent() ?>
@@ -28,7 +30,7 @@ foreach($posts as $post)
 ?>
 
 <?php
-if ($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) //admin has no restrictions and can bypass everything
+if (($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) && (!isset($edit))) //admin has no restrictions and can bypass everything Edit mode is off
 {
 ?>
 
@@ -48,5 +50,24 @@ if ($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) //admin has no
 }
 ?>
 
+<?php
+if (($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) && (isset($edit) && $edit == 1)) //admin has no restrictions and can bypass everything Edit mode is onn 
+{
+?>
+<h2 id="new_post"> Post Edition</h2>
+
+<div class="postForm">
+<form id="post_form" method="post" action="index.php?ctrl=post&action=editConfirm&id=<?= $_GET["id"] ?>">
+
+    <label for="makePost">Post Content</label> 
+    <textarea id="makePost" name="postContent"><?=$content?></textarea>
+
+    <input type="submit" id="post_validate" value="validate"/>
+</form>
+</div>
+
+<?php
+}
+?>
 
 
