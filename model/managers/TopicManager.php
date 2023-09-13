@@ -68,4 +68,29 @@
             $param["id"] = $idTopic;
             DAO::update($sql,$param);            
         }
+
+        public function findTopicsByUserMultiple($id)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.user_id = :id";
+                
+            return $this->getMultipleResults(
+                DAO::select($sql, ['id'=>$id]),
+                $this->className
+            );
+        }
+
+        public function findTopicsByUserSingle($id)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName. " p
+                    WHERE p.user_id = :id";
+                
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$id], false),
+                $this->className
+            );
+        }
+
     }
