@@ -5,24 +5,31 @@ $topic = $posts->current()->getTopic(); //current() allows us to access properti
 $content = $result["data"]["content"];
 //We use it before foreaching so we will always access properties of the first object
 //In this forum a topic will always have a post otherwise it doesn't exist so no problem
-
+$lockState = $posts->current()->getTopic()->getLock();
 ?>
+<?= $lockState == 1 ? " <p> This topic has been locked </p>" : ""?>
+
+
 <?php
 echo $topic->getTitle();
 foreach($posts as $post)
 {
 ?>
     <p>
-        <?= $post->getUser()->getUsername()?>
+        <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"] == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
-
     </p>
     <p>
         <?= $post->getContent() ?>
     </p>
     <?php
 }
+?>
+
+<?php
+if ($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) //admin has no restrictions and can bypass everything
+{
 ?>
 <h2 id="new_post"> Post Edition</h2>
 
@@ -36,5 +43,7 @@ foreach($posts as $post)
 </form>
 </div>
 
-  
+<?php
+}
+?>
 
