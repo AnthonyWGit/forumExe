@@ -24,9 +24,9 @@ else
         ?>
         <p>
             <a href="index.php?ctrl=post&action=listPosts&id=<?=$topic->getId()?>"><?=$topic->getTitle()?></a> 
-            <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") ? '<a href="index.php?ctrl=topic&action=deleteTopic&id='.$topic->getId().'"> X  </a>' : ''?>
-            <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin" && $topic->getLock() == 0) ? '<a href="index.php?ctrl=topic&action=lockTopic&id='.$topic->getId().'">Lock</a>' : ''?> 
-            <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin" && $topic->getLock() == 1) ? '<a href="index.php?ctrl=topic&action=unlockTopic&id='.$topic->getId().'">Unlock</a>' : ''?>
+            <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\session::isMod())) ? '<a href="index.php?ctrl=topic&action=deleteTopic&id='.$topic->getId().'"> X  </a>' : ''?>
+            <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod()) && $topic->getLock() == 0) ? '<a href="index.php?ctrl=topic&action=lockTopic&id='.$topic->getId().'">Lock</a>' : ''?> 
+            <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod())  && $topic->getLock() == 1) ? '<a href="index.php?ctrl=topic&action=unlockTopic&id='.$topic->getId().'">Unlock</a>' : ''?>
         </p> 
         <?php
     }    

@@ -75,7 +75,6 @@
                         ];                          
                 }                    
             }
-   
         }
 
         public function newPost()
@@ -103,7 +102,7 @@
 
         public function deletePost()
         {
-            if ($_SESSION["user"]->getRole() == "admin") //check if action is performed by admin
+            if (SESSION::isAdmin() || SESSION::isMod()) //check if action is performed by admin
             {
                 $count = 0;
                 $postManager = new PostManager();

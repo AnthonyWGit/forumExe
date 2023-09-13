@@ -121,7 +121,7 @@
 
         public function deleteTopic()
         {
-            if ($_SESSION["user"]->getRole() == "admin")
+            if (SESSION::isAdmin() || SESSION::isMod())
             {
                 $topicManager = new TopicManager();
                 $categortManager = new CategoryManager();
@@ -153,7 +153,7 @@
 
         public function lockTopic()
         {
-            if (isset ($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin")
+            if (isset ($_SESSION["user"]) && (SESSION::isAdmin() || SESSION::isMod()))
             {
                 $idTopic = $_GET["id"];
                 $topicManager = new TopicManager();
@@ -182,7 +182,7 @@
 
         public function unlockTopic()
         {
-            if (isset ($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin")
+            if (isset ($_SESSION["user"]) && (SESSION::isAdmin() || SESSION::isMod()))
             {
                 $idTopic = $_GET["id"];
                 $topicManager = new TopicManager();

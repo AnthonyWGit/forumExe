@@ -19,7 +19,7 @@ foreach($posts as $post)
 ?>
     <p>
         <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
-        <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getRole() == "admin") ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
+        <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod()) ) ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
         <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getUsername() == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
     </p>
     <p>
@@ -30,7 +30,7 @@ foreach($posts as $post)
 ?>
 
 <?php
-if (($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) && (!isset($edit))) //admin has no restrictions and can bypass everything Edit mode is off
+if (($lockState == 0 || (App\SESSION::isAdmin())) && (!isset($edit))) //admin has no restrictions and can bypass everything Edit mode is off
 {
 ?>
 
@@ -51,7 +51,7 @@ if (($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) && (!isset($e
 ?>
 
 <?php
-if (($lockState == 0 || ($_SESSION["user"]->getRole() == "admin")) && (isset($edit) && $edit == 1)) //admin has no restrictions and can bypass everything Edit mode is onn 
+if ((App\SESSION::isAdmin()) || (isset($edit) && $edit == 1)) //admin has no restrictions and can bypass everything Edit mode is onn 
 {
 ?>
 <h2 id="new_post"> Post Edition</h2>
