@@ -98,7 +98,8 @@
             }
             else
             {
-                $userManager->banUser($userId);            
+                $userO = $userManager->userFind($userId);
+                $userManager->banUser($userId);
                 SESSION::addFlash("success","User has been banhammer'ed");
                 $this->redirectTo("user","usersList");
             }
@@ -110,6 +111,24 @@
             $userManager = new UserManager();
             $userManager->unbanUser($userId);            
             SESSION::addFlash("success","Redemption has been giveth");
+            $this->redirectTo("user","usersList");
+        }
+
+        public function promote()
+        {
+            $userId = $_GET["id"];
+            $userManager = new UserManager();
+            $userManager->makeRole($userId, "mod");            
+            SESSION::addFlash("success","Mod rights been giveth");
+            $this->redirectTo("user","usersList");
+        }
+
+        public function demote()
+        {
+            $userId = $_GET["id"];
+            $userManager = new UserManager();
+            $userManager->makeRole($userId, "member");            
+            SESSION::addFlash("success","Mod rights been taketh");
             $this->redirectTo("user","usersList");
         }
     }
