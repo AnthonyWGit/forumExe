@@ -16,7 +16,9 @@ foreach($users as $user )
         <?=$user->getRegisterDate()?> 
         </br>
         <a href = "index.php?ctrl=admin&action=postsCreated&id=<?=$user->getId()?> ">See posts</a> &nbsp;
-        <a href = "index.php?ctrl=admin&action=topicsCreated&id=<?=$user->getId()?> ">See topics</a>&nbsp;Mute&nbsp;Ban
+        <a href = "index.php?ctrl=admin&action=topicsCreated&id=<?=$user->getId()?> ">See topics</a>&nbsp;Mute&nbsp;
+        <?= ($user->getState() == 'free') ? '<a href ="index.php?ctrl=admin&action=ban&id='.$user->getId().'">Ban</a>': '' ?>
+        <?= ($user->getState() == 'banned') ? '<a href ="index.php?ctrl=admin&action=unban&id='.$user->getId().'">Unban</a>': '' ?>
 
     </p>
     <?php
