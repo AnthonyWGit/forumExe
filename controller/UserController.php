@@ -19,6 +19,7 @@
         
         public function usersList()
         {
+            $this->restrictTo("admin");
             $userManager = new UserManager();
  
             return [
