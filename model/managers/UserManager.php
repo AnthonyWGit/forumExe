@@ -15,17 +15,30 @@
             parent::connect();
         }
 
-        public function usernameFind($username)
+        public function userFind($id)
         {
             $sql = "SELECT *
                     FROM ".$this->tableName."
-                    WHERE username = :username
+                    WHERE id_user = :id
                     ";
 
+            return $this->getOneOrNullResult(
+                DAO::select($sql, ['id'=>$id], false), 
+                $this->className
+            );
+        }
+
+        public function usernameFind($username)
+        {
+            $sql = "SELECT *
+                    FROM ".$this->tableName." 
+                    WHERE username = :username
+                    ";
             return $this->getOneOrNullResult(
                 DAO::select($sql, ['username' => $username], false), 
                 $this->className
             );
+
         }
 
         public function emailFind($email)
