@@ -72,4 +72,26 @@
             unset($data["validatePassword"]);
             return $this->add($data);
         }
+
+        public function banUser($idUser)
+        {
+            $sql = "UPDATE user as s
+                    SET s.state = :prepare
+                    WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $idUser;
+            $param["prepare"] = "banned";
+            DAO::update($sql,$param);
+        }
+
+        public function unbanUser($idUser)
+        {
+            $sql = "UPDATE user as s
+                    SET s.state = :prepare
+                    WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $idUser;
+            $param["prepare"] = "free";
+            DAO::update($sql,$param);
+        }
     }
