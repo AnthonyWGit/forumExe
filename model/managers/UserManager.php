@@ -94,4 +94,15 @@
             $param["prepare"] = "free";
             DAO::update($sql,$param);
         }
+
+        public function makeRole($idUser, $role)
+        {
+            $sql = "UPDATE user as s
+            SET s.role = :prepare
+            WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $idUser;
+            $param["prepare"] = $role;
+            DAO::update($sql,$param);
+        }
     }
