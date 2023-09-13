@@ -63,13 +63,14 @@
                 else
                 {
                     $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
-                    $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();     
+                    $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
                     return [
-                        "view" => VIEW_DIR."forum/editPost.php",
+                        "view" => VIEW_DIR."forum/listPosts.php",
                         "data" => [
                             "posts" => $postManager->findPostsInTopic($idTopic),
                             "idPost" => $idTopic,
-                            "content" => $postManager->findAPostByIdAndTopicId($idPost)->getContent()
+                            "content" => $postManager->findAPostByIdAndTopicId($idPost)->getContent(),
+                            "edit" => 1
                         ]
                         ];                          
                 }                    
@@ -154,7 +155,7 @@
         {
             $idPost = $_GET["id"];
             $postManager = new PostManager();
-            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
+            if ($_SESSION["user"]->getUsername() != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
             {
                 SESSION::addFlash("error" , "You vile person");
                 $this->redirectTo("home","index");
@@ -173,7 +174,7 @@
             $postManager = new PostManager();
             $idPost = $_GET["id"]; 
             $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
-            if ($_SESSION["user"] != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
+            if ($_SESSION["user"]->getUsername() != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
             {
                 SESSION::addFlash("error","Something wrong happpenned");
                 $this->redirectTo("home","index");                
