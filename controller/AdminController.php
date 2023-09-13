@@ -86,4 +86,30 @@
                 $this->redirectTo("home","index");
             }
         }
+
+        public function ban()
+        {
+            $userId = $_GET["id"];
+            $userManager = new UserManager();
+            if ($userId == $_SESSION["user"]->getId() && SESSION::isAdmin())
+            {
+                SESSION::addFlash("error","Why are you trying to ban yourself ?");
+                $this->redirectTo("user","usersList");
+            }
+            else
+            {
+                $userManager->banUser($userId);            
+                SESSION::addFlash("success","User has been banhammer'ed");
+                $this->redirectTo("user","usersList");
+            }
+        }
+
+        public function unban()
+        {
+            $userId = $_GET["id"];
+            $userManager = new UserManager();
+            $userManager->unbanUser($userId);            
+            SESSION::addFlash("success","Redemption has been giveth");
+            $this->redirectTo("user","usersList");
+        }
     }
