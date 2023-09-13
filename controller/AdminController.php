@@ -48,7 +48,42 @@
             }
             else
             {
-                redirectTo("home","index");
+                $this->redirectTo("home","index");
+            }
+        }
+
+        public function postsCreated($userId)
+        {
+            $postManager = new PostManager(); 
+            $userManager = new UserManager();
+
+            $posts = $postManager->findAllPostsFromUser($userId);
+            $user = $userManager->userFind($userId);
+            if ($posts != null)
+            {
+                return [
+                    "view" => VIEW_DIR."forum/listPostsUser.php",
+                    "data" => [
+                        "user" => $user,
+                        "posts" => $posts
+                    ]
+                ];                
+            }
+            else if ($posts)
+            {
+                {
+                    return [
+                        "view" => VIEW_DIR."forum/listPostsUser.php",
+                        "data" => [
+                            "user" => $user,
+                            "posts" => $posts
+                        ]
+                    ];                
+                }
+            }
+            else
+            {
+                $this->redirectTo("home","index");
             }
         }
     }
