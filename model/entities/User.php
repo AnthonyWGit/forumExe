@@ -11,7 +11,7 @@
         private string $username;
         private string $role;
         private Object $creationdate;
-        private Object $registerDateObject;
+        // private Object $registerDateObject;
         private string $password;
         private string $email;
         private string $state;
@@ -82,18 +82,18 @@
                 return $this;
         }
 
-        public function getRegisterDateObject() : Object
-        {
-                return $this->creationdate;
-        }
+        // public function getRegisterDateObject() : Object
+        // {
+        //         return $this->creationdate;
+        // }
 
-        public function getRegisterDate() : string
+        public function getRegisterdate() : string
         {
             $formattedDate = $this->creationdate->format("d/m/Y, H:i:s");
             return $formattedDate;
         }
 
-        public function setRegisterDate(string $date)
+        public function setRegisterdate(string $date)
         {
             $this->creationdate = new \DateTime($date);
             return $this;
@@ -115,7 +115,6 @@
         public function setPassword(string $password)
         {
                 $this->password = $password;
-
                 return $this;
         }
 
@@ -135,7 +134,6 @@
         public function setEmail(string $email)
         {
                 $this->email = $email;
-
                 return $this;
         }
 
@@ -155,7 +153,6 @@
         public function setState(string $state)
         {
                 $this->state = $state;
-
                 return $this;
         }
 
@@ -171,29 +168,44 @@
                 }
         }
         
-        public function getBanDate() 
+        public function getBandate() 
         {
-            $formattedDate = $this->bandate;
-            return $formattedDate;
+                if ($this->bandate != null)
+                {
+                    $formattedDateKick = $this->bandate->format("d/m/Y, H:i:s");
+                    return $formattedDatekick;
+                }
+                else 
+                {
+                    return $this->bandate;
+                }
         }
 
-        // public function setBanDate($date)
-        // {
-        //     $this->bandate = new \DateTime($date);
-        //     return $this;
-        // }
-
-        public function getKickDate() 
+        public function setBandate($date)
         {
-            $formattedDate = $this->kickdate;
-            return $formattedDate;
+            $this->bandate = ($date == null) ? null : new \DateTime($date);
+            return $this;
         }
 
-        // public function setKickDate($date)
-        // {
-        //     $this->bandate = new \DateTime($date);
-        //     return $this;
-        // }
+        public function getKickdate() 
+        {
+            if ($this->kickdate != null)
+            {
+                $formattedDateKick = $this->kickdate->format("d/m/Y, H:i:s");
+                return $formattedDatekick;
+            }
+            else 
+            {
+                return $this->kickdate;
+            }
+
+        }
+
+        public function setKickdate($date)
+        {
+            $this->kickdate =  ($date == null) ? null : new \DateTime($date);
+            return $this;
+        }
         
         //If no tostring the app will crash because in layout we echo the object
         public function __toString()
