@@ -286,6 +286,37 @@ class HomeController extends AbstractController implements ControllerInterface
         unset($_SESSION["user"]);
         $this->redirectTo("home", "index");
     }
+
+    public function changeCredentials()
+    {
+        return
+        [
+         "view" => VIEW_DIR."security/redoCredentials.php"
+        ];
+    }
+    public function validateCredentials()
+    {
+        foreach ($_POST as $fieldname => $value)
+        {
+            switch ($fieldName)
+            {
+                case "username":
+                break;
+                
+                case "email":
+                break;
+
+                case "oldPassword":
+                break;
+
+                case "validatepassword":
+                break;
+
+                case "validatepassword2":
+                break;
+            }
+        }
+    }
 }
 
 
