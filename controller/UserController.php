@@ -19,7 +19,7 @@
         
         public function usersList()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             $this->restrictTo("admin");
             $userManager = new UserManager();
  
