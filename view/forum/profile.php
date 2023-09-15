@@ -14,7 +14,7 @@ $kickDate = $result["data"]["kickDate"];
 <?php if (App\SESSION::isBanned()) echo "You have been banned on ".var_dump($_SESSION["user"]); ?>
 <?php if (App\SESSION::isKicked()) echo "You have been kicked until ".$kickDate; ?>
 <p>
-    <button>Change your credentials</button>
     <button>Change your password</button>
     <button>Delete your account</button>
+    <a href="index.php?ctrl=security&action=changecredentials"> Change credentials </a>
 </p>
