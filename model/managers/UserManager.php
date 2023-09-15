@@ -116,4 +116,17 @@
             $param["prepare"] = $role;
             DAO::update($sql,$param);
         }
+
+        public function modifyUser($data)
+        {
+            $sql = "UPDATE user as s
+            SET s.username = :username, s.password = :passwordH, s.email = :email 
+            WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $_SESSION["user"]->getId();
+            $param["username"] = $data["username"];
+            $param["passwordH"] = $data["password"];
+            $param["email"] = $data["email"];
+            DAO::update($sql,$param);
+        }
     }
