@@ -50,11 +50,21 @@
             }
             return false;
         }
+
         public static function isBanned()
         {
-            if(self::getUser() && self::getUser()->getState() != "free"){
+            if(self::getUser() && self::getUser()->getState() == "banned"){
                 return true;
             }
             return false;
         }
+
+        public static function isKicked()
+        {
+            if(self::getUser() && self::getUser()->getState() == "kicked"){
+                return true;
+            }
+            return false;
+        }
+
     }
