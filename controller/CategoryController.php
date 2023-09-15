@@ -11,7 +11,7 @@
 
         public function index()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");  
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
 
             $categoryManager = new CategoryManager();
  
