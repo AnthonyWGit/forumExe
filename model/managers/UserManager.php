@@ -84,10 +84,21 @@
             DAO::update($sql,$param);
         }
 
+        public function kickUser($idUser, $duration)
+        {
+            $sql = "UPDATE user as s
+                    SET s.state = :prepare , s.kickDate = '$duration'
+                    WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $idUser;
+            $param["prepare"] = "kicked";
+            DAO::update($sql,$param);
+        }
+
         public function unbanUser($idUser)
         {
             $sql = "UPDATE user as s
-                    SET s.state = :prepare , banDate = NULL
+                    SET s.state = :prepare , banDate = NULL , kickDate = NULL
                     WHERE id_user = :id";
             $param = [];
             $param["id"] = $idUser;
