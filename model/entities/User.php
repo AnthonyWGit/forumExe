@@ -16,6 +16,7 @@
         private string $email;
         private string $state;
         private $bandate;
+        private $kickdate;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -172,11 +173,23 @@
         
         public function getBanDate() 
         {
-            $formattedDate = $this->bandate->format("d/m/Y, H:i:s");
+            $formattedDate = $this->bandate;
             return $formattedDate;
         }
 
         // public function setBanDate($date)
+        // {
+        //     $this->bandate = new \DateTime($date);
+        //     return $this;
+        // }
+
+        public function getKickDate() 
+        {
+            $formattedDate = $this->kickdate;
+            return $formattedDate;
+        }
+
+        // public function setKickDate($date)
         // {
         //     $this->bandate = new \DateTime($date);
         //     return $this;
