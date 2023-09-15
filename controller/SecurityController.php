@@ -53,10 +53,10 @@ class HomeController extends AbstractController implements ControllerInterface
             switch ($fieldName)
             {
                 //Throws an error when there is one empty field no matter what it is
-                case NULL:
-                $errors = ["One field or more have not been filled"];
-                $this->redirectTo("security","displayErrorPage");
-                break;
+                // case NULL:
+                // $errors = ["One field or more have not been filled"];
+                // $this->redirectTo("security","displayErrorPage");
+                // break; USELESS B/C $field can't be nulll
                 
                 case "username":
                     if($item == null)
@@ -296,28 +296,192 @@ class HomeController extends AbstractController implements ControllerInterface
     }
     public function validateCredentials()
     {
-        foreach ($_POST as $fieldname => $value)
+        $userCtrl = new UserManager();
+        $errors = [];
+        $arrayPwdCheck = [];
+        $pwdMatching = 0;
+        $oldPwd = 0;
+        foreach ($_POST as $fieldName => $value)
         {
+            $sanitizedValue = filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             switch ($fieldName)
             {
                 case "username":
-                break;
-                
+                    if($value == null)
+                    {
+                        $errors[] = "One field or more have not been filled";
+                        $_SESSION["errors"] = $errors;
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {   //sanitize
+                        // Need a regex rule for line below to not allow have username with special chars
+                        $usernameCheck = 1;
+                        $_POST["username"] = $sanitizedValue;
+                        break;
+                    }                
                 case "email":
-                break;
+                    if($value == null)
+                    {
+                        $errors[] = "One field or more have not been filled";
+                        $_SESSION["errors"] = $errors;
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        filter_var($sanitizedValue,FILTER_VALIDATE_EMAIL) == true ? $checkEmail = 1 : $checkEmail = 0;
+                        $_POST["email"] = $sanitizedValue;
+                        break;                    
+                    }
 
                 case "oldPassword":
-                break;
+                    if($value == null)
+                    {
+                        $errors[] = "One field or more have not been filled";
+                        $_SESSION["errors"] = $errors;
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        $oldPwd = $_SESSION["user"]->getPassword();
+                        if (password_verify($sanitizedValue, $oldPwd)) $checkOldPwd = 1;
+                        break;                        
+                    }
+                case "validatePassword":
+                    if($value == null)
+                    {
+                        $errors = ["One field or more have not been filled"];
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        if (strlen($sanitizedValue) < 8 || strlen($sanitizedValue) > 60) 
+                        {
+                            $errors[] = "Password should be min 8 characters and max 60 characters";
+                        }
+                        if (!preg_match("/\d/", $sanitizedValue)) 
+                        {
+                            $errors[] = "Password should contain at least one digit";
+                        }
+                        if (!preg_match("/[\p{Lu}]/u", $sanitizedValue)) 
+                        {
+                            $errors[] = "Password should contain at least one Capital Letter : can be any unicode";
+                        }
+                        if (!preg_match("/[\p{Ll}]/", $sanitizedValue)) 
+                        {
+                            $errors[] = "Password should contain at least one small Letter : can be any unicode";
+                        }
+                        if (!preg_match("/\W/", $sanitizedValue)) 
+                        {
+                            $errors[] = "Password should contain at least one special character";
+                        }
+                        if (preg_match("/\s/", $sanitizedValue)) 
+                        {
+                            $errors[] = "Password should not contain any white space";
+                        }
+                        array_push($arrayPwdCheck, $sanitizedValue);
+                        $_POST["password"] = $sanitizedValue;
+                        break;
+                    }
 
-                case "validatepassword":
-                break;
-
-                case "validatepassword2":
-                break;
+                case "validatePassword2":
+                    if($value == null)
+                    {
+                        $errors = ["One field or more have not been filled"];
+                        $this->redirectTo("security","displayErrorPage");
+                    }
+                    else
+                    {
+                        array_push($arrayPwdCheck, $sanitizedValue);
+                        break;                    
+                    }
+                
             }
         }
-    }
-}
+    
+            //printing specific error when pwd don't match
+            if ($arrayPwdCheck[0] != $arrayPwdCheck[1])
+            {
+                $errors[] = "Passwords don't match";
+            }
+            else
+            {
+                $pwdMatching == 1;
+            }
+            
+            //finally processed to check if username and email already exists in DB
+            
+                $userFind = ($userCtrl->usernameFind($_POST["username"]));
+                $emailFind = ($userCtrl->emailFind($_POST["email"]));
+
+                if (is_object($userFind)) // If we get an object back it means there is something existing in db 
+                {
+                    $usernameSame = 1;  
+                    unset($_SESSION["errors"]);
+                    $errors = empty($errors);
+                    $errors = [];
+                    $errors[] = "This username has already been taken"; 
+                    $_SESSION["errors"] = $errors;
+                    
+                }
+                else
+                {
+                    $usernameSame = 0;
+                }
+                // Display both email + username taken or just one of them
+                if (is_object($emailFind))
+                {
+                    $emailSame = 1;
+    
+                    if ($usernameSame == 1)
+                    {
+                        $errors[] = "This email has already been taken"; 
+                        $_SESSION["errors"] = $errors;
+                    }
+                    else
+                    {
+                        unset($_SESSION["errors"]);
+                        $errors = empty($errors);
+                        $errors = [];
+                        $errors[] = "This email has already been taken"; 
+                        $_SESSION["errors"] = $errors;
+                    }
+                }
+                else
+                {
+                    $emailSame = 0;
+                }
+                var_dump($usernameCheck);
+                var_dump($checkEmail);
+                var_dump($usernameSame);
+                var_dump($emailSame);
+                var_dump($errors);
+                var_dump($oldPwd);
+                // To processed, check if every check has been passed. If no errors we have a valid pwd so we can just check if password
+                //is the same as pwd confirm
+                if (($usernameCheck == 1) && ($checkEmail == 1) && ($usernameSame == 0) && ($emailSame == 0) && empty($errors) && ($checkOldPwd  == 1))
+                {
+                    $success = 1;
+                    $_SESSION["success"] = "Register complete";
+    
+                    //hashing password
+    
+                    $hashedPwd = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                    $_POST["password"] = $hashedPwd;
+    
+                    $userCtrl->modifyUser($_POST);
+                    $this->redirectTo("home","index");
+                }
+                else
+                {
+                    $this->redirectTo("security","displayErrorPage");
+                }            
+            
+                
+            }
+        }
+    
+
 
 
 // <label for="username">Username</label>
