@@ -19,6 +19,7 @@
             $username = $userManager->usernameFind($_SESSION["user"])->getUsername();
             $email = $userManager->usernameFind($_SESSION["user"])->getEmail();
             $arrayCreationdate = $userManager->usernameFind($_SESSION["user"])->getRegisterDate();
+            $kickdate = $userManager->usernameFind($_SESSION["user"])->getKickDate();
             // $creationDate = $userManager->usernameFind($_SESSION["user"])->getRegisterDate();
 
             return [
@@ -26,7 +27,8 @@
                 "data" => [
                     "username" => $username,
                     "email" => $email,
-                    "creationDate" => $arrayCreationdate
+                    "creationDate" => $arrayCreationdate,
+                    "kickDate" =>  $kickdate
                 ]
             ];
         }
