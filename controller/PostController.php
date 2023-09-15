@@ -17,7 +17,7 @@
         
         public function listPosts()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             $postManager = new PostManager();
             $postObject = $postManager->findPostsInTopicOneOrNull($_GET["id"]);
             if(!$postObject)
@@ -42,7 +42,7 @@
 
         public function editPost()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             $postManager = new PostManager();
             $idPost = $_GET["id"];
 
@@ -81,7 +81,7 @@
 
         public function newPost()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             //vital minimum filtering
             $sanitizedPost = filter_var($_POST["makePost"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -105,7 +105,7 @@
 
         public function deletePost()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             if (SESSION::isAdmin() || SESSION::isMod()) //check if action is performed by admin
             {
                 $count = 0;
@@ -156,7 +156,7 @@
 
         public function edit()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             $idPost = $_GET["id"];
             $postManager = new PostManager();
             if ($_SESSION["user"]->getUsername() != $postManager->findAPostByIdAndTopicId($idPost)->getUser()->getUsername() || $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getLock() == 1)
@@ -175,7 +175,7 @@
 
         public function editConfirm()
         {
-            if (SESSION::isBanned()) $this->redirectTo("home","index");
+            if (SESSION::isBanned() || SESSION::isKicked()) $this->redirectTo("home","index");
             $postManager = new PostManager();
             $idPost = $_GET["id"]; 
             $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
