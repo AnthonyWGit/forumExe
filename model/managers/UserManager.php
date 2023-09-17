@@ -129,4 +129,19 @@
             $param["email"] = $data["email"];
             DAO::update($sql,$param);
         }
+
+        public function deleteUser($userId)
+        {
+            $sql = "UPDATE user as s
+            SET s.username = :username, s.password = :passwordH, s.email = :email , s.registerDate = :re , s.state = :state
+            WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $_SESSION["user"]->getId();
+            $param["username"] = "Deleted user";
+            $param["passwordH"] = "nopwd";
+            $param["email"] = "none";
+            $param["re"] = NULL;
+            $param["state"] = "deleted";
+            DAO::update($sql,$param);
+        }
     }
