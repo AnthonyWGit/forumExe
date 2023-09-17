@@ -38,7 +38,24 @@
                 DAO::select($sql, ['username' => $username], false), 
                 $this->className
             );
+        }
 
+        public function findAllExept($order = null) //Exeption to not show deleted user 
+        {
+
+            $orderQuery = ($order) ?                 
+                "ORDER BY ".$order[0]. " ".$order[1] :
+                "";
+
+            $sql = "SELECT *
+                    FROM ".$this->tableName." 
+                    WHERE ".$this->tableName."name <> :username_exception
+                    ".$orderQuery;
+            $param["username_exception"] = "Deleted user";
+            return $this->getMultipleResults(
+                DAO::select($sql, $param), 
+                $this->className
+            );
         }
 
         public function emailFind($email)
@@ -130,7 +147,7 @@
             DAO::update($sql,$param);
         }
 
-        public function deleteUser($userId)
+        public function deleteAccount($userId)
         {
             $sql = "UPDATE user as s
             SET s.username = :username, s.password = :passwordH, s.email = :email , s.registerDate = :re , s.state = :state

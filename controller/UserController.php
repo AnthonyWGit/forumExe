@@ -26,7 +26,7 @@
             return [
                 "view" => VIEW_DIR."forum/listUsers.php",
                 "data" => [
-                    "users" => $userManager->findAll(["username", "ASC"])
+                    "users" => $userManager->findAllExept(["username", "ASC"])
                 ]
             ];
         }
