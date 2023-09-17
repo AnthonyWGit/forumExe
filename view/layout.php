@@ -19,11 +19,11 @@
             <header>
                 <nav>
                     <div id="nav-left">
-                        <a href="./">Accueil</a>
+                        <a href="./" class="looksLikeAButton">Accueil</a>
                         <?php
                         if(App\Session::isAdmin()){
                             ?>
-                            <a href="index.php?ctrl=user&action=usersList">Voir la liste des gens</a>
+                            <a href="index.php?ctrl=user&action=usersList" class="looksLikeAButton" >Voir la liste des gens</a>
                           
                             <?php
                         }
@@ -34,9 +34,9 @@
                         
                         if(App\Session::getUser()){
                             ?>
-                            <a href="index.php?ctrl=profile&action=viewProfile"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
-                            <a href="index.php?ctrl=security&action=logout">Déconnexion</a>
-                            <a href="index.php?ctrl=category&action=listCategories">la liste des catégories</a>
+                            <a href="index.php?ctrl=profile&action=viewProfile" class="looksLikeAButton"><span class="fas fa-user"></span>&nbsp;<?= App\Session::getUser()?></a>
+                            <a href="index.php?ctrl=security&action=logout" class="looksLikeAButton">Déconnexion</a>
+                            <a href="index.php?ctrl=category&action=listCategories" class="looksLikeAButton">la liste des catégories</a>
                             <?php
                         }
                         // else{
@@ -55,7 +55,7 @@
             </main>
         </div>
         <footer>
-            <p>&copy; 2020 - Forum CDA - <a href="/home/forumRules.html">Règlement du forum</a> - <a href="">Mentions légales</a></p>
+            <p>&copy; 2020 - Forum CDA - <a href="/home/forumRules.html" >Règlement du forum</a> - <a href="">Mentions légales</a></p>
             <!--<button id="ajaxbtn">Surprise en Ajax !</button> -> cliqué <span id="nbajax">0</span> fois-->
         </footer>
     </div>

@@ -11,24 +11,26 @@ if (isset($result["data"]["content"])) $content = $result["data"]["content"];
 
 <?= $lockState == 1 ? " <p> This topic has been locked </p>" : ""?>
 
-
-<?php
-echo $topic->getTitle();
-foreach($posts as $post)
-{
-?>
-    <p>
-        <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
-        <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod()) ) ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
-        <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getUsername() == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
-    </p>
-    <p>
-        <?= $post->getContent() ?>
-    </p>
-    <?php
-}
-?>
-
+<?= $topic->getTitle()?>
+<div class="giantBox">
+    <?php    
+    foreach($posts as $post)
+    {
+    ?>
+    <div class="postBox">
+        <p>
+            <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
+            <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod()) ) ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
+            <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getUsername() == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
+        </p>
+        <p>
+            <?= nl2br($post->getContent()) ?>
+        </p>
+    </div>
+        <?php
+    }
+    ?>
+</div>
 <?php
 if (($lockState == 0 || (App\SESSION::isAdmin())) && (!isset($edit))) //admin has no restrictions and can bypass everything Edit mode is off
 {
@@ -51,7 +53,7 @@ if (($lockState == 0 || (App\SESSION::isAdmin())) && (!isset($edit))) //admin ha
 ?>
 
 <?php
-if ((App\SESSION::isAdmin()) || (isset($edit) && $edit == 1)) //admin has no restrictions and can bypass everything Edit mode is onn 
+if ((isset($edit) && $edit == 1)) //admin has no restrictions and can bypass everything Edit mode is onn 
 {
 ?>
 <h2 id="new_post"> Post Edition</h2>
