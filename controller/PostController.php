@@ -88,6 +88,8 @@
             //trimming spaces 
             $sanitizedPost = trim($sanitizedPost);
             $sanitizedPost = trim($sanitizedPost, chr(0xC2).chr(0xA0));
+            // Allow specific HTML tags like <b> and <i>
+            $sanitizedPost = str_replace(['&lt;b&gt;', '&lt;/b&gt;', '&lt;i&gt;', '&lt;/i&gt;'], ['<b>', '</b>', '<i>', '</i>'], $sanitizedPost);
             $data = ["user_id" => $_SESSION["user"]->getId(), "topic_id" => $_GET["id"], "content"=>$sanitizedPost];
             $postManager = new PostManager();
             if (empty($sanitizedPost))
@@ -190,6 +192,10 @@
                 $sanitizedPostContent = filter_var($_POST["postContent"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
                 $trimedSanitizedPostContent = trim($sanitizedPostContent);
                 $trimedSanitizedPostContent = trim($trimedSanitizedPostContent, chr(0xC2).chr(0xA0)); //Doesn't work, trying to remove nbsp 
+
+                // Allow specific HTML tags like <b> and <i>
+                $trimedSanitizedPostContent = str_replace(['&lt;b&gt;', '&lt;/b&gt;', '&lt;i&gt;', '&lt;/i&gt;'], ['<b>', '</b>', '<i>', '</i>'], $trimedSanitizedPostContent);
+
                 $postManager->editPostContent($idPost, $trimedSanitizedPostContent);
                 SESSION::addFlash("success","Post has been updated");
                 $this->redirectTo("post","listPosts",$idTopic);        
