@@ -34,3 +34,31 @@ header
     display: flex;
     flex-direction: column;
  }
+
+ .looksLikeAButton
+ {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .postBox
+  {
+    display: flex;
+    background-color: white;
+    border: solid 1px black;
+    flex-direction: column;
+    padding: 5px;
+  }
+
+  .giantBox
+  {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
