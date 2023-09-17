@@ -505,6 +505,7 @@ class HomeController extends AbstractController implements ControllerInterface
                 $userManager = new userManager();
                 $userId = $_SESSION["user"]->getId();
                 $userManager->deleteAccount($usedId);
+                unset($_SESSION["user"]);
                 $this->redirectTo("index","home");
             }
         }
