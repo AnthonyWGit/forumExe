@@ -67,6 +67,12 @@ class HomeController extends AbstractController implements ControllerInterface
                     else
                     {   //sanitize
                         $itemFiltered = filter_var($item,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                        $tring = "/[ \xA0]+/";
+                        if (preg_match($tring, $sanitizedValue))
+                        {
+                            SESSION::addFlash("error", "spaces detected in username");
+                            $this->redirectTo("home","index");
+                        } 
                         // Need a regex rule for line below to not allow have username with special chars
                         ($itemFiltered == $item) ? $usernameCheck = 1 : $usernameCheck = 0;
                         $_POST["username"] = $itemFiltered;
@@ -476,10 +482,34 @@ class HomeController extends AbstractController implements ControllerInterface
                 {
                     $this->redirectTo("security","displayErrorPage");
                 }            
-            
-                
+            }
+
+        public function deleteAccount()
+        {
+            return
+            [
+             "view" => VIEW_DIR."security/confirm.php"
+            ];
+        }
+
+        public function confirmDelete()
+        {
+            if (!SESSION::getUSer()) $this->redirectTo("home,index");
+            if (array_map('trim', $_POST) == null) //trim all contents in post array
+            {
+                SESSION::addFlash("error","you cannot post an empty field");
+                $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+            }
+            else
+            {
+                $userManager = new userManager();
+                $userId = $_SESSION["user"]->getId();
+                $userManager->deleteAccount($usedId);
+                $this->redirectTo("index","home");
             }
         }
+
+}
     
 
 
