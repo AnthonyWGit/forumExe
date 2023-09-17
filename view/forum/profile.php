@@ -16,5 +16,6 @@ $kickDate = $result["data"]["kickDate"];
 <p>
     <button>Change your password</button>
     <button>Delete your account</button>
+    <a href="index.php?ctrl=security&action=deleteaccount">Delete your account</a>
     <a href="index.php?ctrl=security&action=changecredentials"> Change credentials </a>
 </p>
