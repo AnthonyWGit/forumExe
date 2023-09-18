@@ -10,7 +10,7 @@ $kickDate = $result["data"]["kickDate"];
 
 <p>Email : <?=$email?></p>
 
-<p class="looksLikeAButton">Change your profile picture</p>
+<p class="looksLikeAButton"><a class="blankLink" href="index.php?ctrl=profile&action=avatarChange">Change your profile picture</a></p>
 
 <p>You joined the forum on <?=$creationDate?></p>
 <?php if (App\SESSION::isBanned()) echo "You have been banned on ".var_dump($_SESSION["user"]); ?>

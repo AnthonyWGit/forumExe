@@ -19,7 +19,7 @@ if (isset($result["data"]["content"])) $content = $result["data"]["content"];
     ?>
     <div class="postBox">
         <p>
-            <?= $post->getUser()->getUsername()?> &nbsp <?= $post->getCreationdate() ?>
+            <img src="<?=PUBLIC_DIR?><?=$post->getUser()->getProfileImg()?>" alt="profile pic"><?= $post->getUser()->getUsername()?> &nbsp; <?= $post->getCreationdate() ?>
             <?= (isset($_SESSION["user"]) && (App\SESSION::isAdmin() || App\SESSION::isMod()) ) ? '<a href="index.php?ctrl=post&action=deletePost&id='.$post->getId().'"> X  </a>' : ''?>
             <?= (isset($_SESSION["user"]) && $_SESSION["user"]->getUsername() == $post->getUser()->getUsername()) ?  '<a href="index.php?ctrl=post&action=edit&id='.$post->getId().' "> Edit </a>' : '' ?>
         </p>
