@@ -33,4 +33,13 @@
                 ]
             ];
         }
+
+        public function avatarChange()
+        {
+            if (!SESSION::getUser()) $this->redirectTo("home", "index");
+            return [
+                "view" => VIEW_DIR."forum/uploadPic.php",
+                "metaDescription" => "Form upload img"
+            ];
+        }
     }
