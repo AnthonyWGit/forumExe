@@ -40,6 +40,7 @@
                 {
                     return [
                         "view" => VIEW_DIR."forum/listTopicsUser.php",
+                        "metaDescription" => "topics created",
                         "data" => [
                             "user" => $user,
                             "topics" => $topics
@@ -63,6 +64,7 @@
             if ($posts != null)
             {
                 return [
+                    "metaDescription" => "posts created",
                     "view" => VIEW_DIR."forum/listPostsUser.php",
                     "data" => [
                         "user" => $user,
@@ -74,6 +76,7 @@
             {
                 {
                     return [
+                        "metaDescription" => "posts created",
                         "view" => VIEW_DIR."forum/listPostsUser.php",
                         "data" => [
                             "user" => $user,

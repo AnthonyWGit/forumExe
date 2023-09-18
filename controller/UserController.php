@@ -24,6 +24,7 @@
             $userManager = new UserManager();
  
             return [
+                "metaDescription" => "Users list",
                 "view" => VIEW_DIR."forum/listUsers.php",
                 "data" => [
                     "users" => $userManager->findAllExept(["username", "ASC"])

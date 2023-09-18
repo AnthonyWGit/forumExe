@@ -43,6 +43,7 @@
             else
             {
                 return [
+                    "metaDescription" => "topics list",
                     "view" => VIEW_DIR."forum/listTopics.php",
                     "data" => [
                         "topics" => $topicManager->findTopicsByCategory($_GET["id"]),

@@ -68,6 +68,7 @@
                     $postContent = $postManager->findAPostByIdAndTopicId($idPost)->getContent();
                     $idTopic = $postManager->findAPostByIdAndTopicId($idPost)->getTopic()->getId();
                     return [
+                        "metaDescription" => "post editing",
                         "view" => VIEW_DIR."forum/listPosts.php",
                         "data" => [
                             "posts" => $postManager->findPostsInTopic($idTopic),
