@@ -58,6 +58,7 @@
         include($result['view']);
         /*je mets cet affichage dans une variable*/
         $page = ob_get_contents();
+        $metaDescription = $result["metaDescription"];
         /*j'efface le tampon*/
         ob_end_clean();
         /*j'affiche le template principal (layout)*/
