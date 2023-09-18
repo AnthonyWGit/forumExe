@@ -2,7 +2,7 @@
 <?php
 
 
-//This file is not used and has been rended obselete
+//This file is not used and has been rendered obselete
 
 
 
