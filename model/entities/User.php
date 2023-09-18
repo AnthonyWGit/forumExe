@@ -17,6 +17,7 @@
         private string $state;
         private $bandate;
         private $kickdate;
+        private $profileImg;
 
         public function __construct($data){         
             $this->hydrate($data);        
@@ -205,6 +206,17 @@
         {
             $this->kickdate =  ($date == null) ? null : new \DateTime($date);
             return $this;
+        }
+
+        public function getProfileImg() 
+        {
+                return $this->profileImg;
+        }
+
+        public function setProfileImg($profileImg)
+        {
+                $this->profileImg = $profileImg;
+                return $this;
         }
         
         //If no tostring the app will crash because in layout we echo the object
