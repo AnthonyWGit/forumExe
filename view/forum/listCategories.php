@@ -11,6 +11,6 @@ foreach($categories as $category )
 {
 
     ?>
-    <p><a href="index.php?ctrl=topic&action=listTopics&id=<?=$category->getId()?>"><?=$category->getName()?></a></p>
+    <p class="<?=strtolower($category->getName())?>"><a href="index.php?ctrl=topic&action=listTopics&id=<?=$category->getId()?>"><?=$category->getName()?></a></p>
     <?php
 }
