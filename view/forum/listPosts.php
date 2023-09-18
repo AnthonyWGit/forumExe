@@ -43,7 +43,7 @@ if (($lockState == 0 || (App\SESSION::isAdmin())) && (!isset($edit))) //admin ha
 
     <label for="makePost">Post Content</label> 
     <textarea id="makePost" name="makePost"></textarea>
-
+    <label for="post_validate"></label>
     <input type="submit" id="post_validate" value="New Post"/>
 </form>
 </div>
