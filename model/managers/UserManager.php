@@ -161,4 +161,15 @@
             $param["state"] = "deleted";
             DAO::update($sql,$param);
         }
+
+        public function updateAvatar($file)
+        {
+            $sql = "UPDATE user as s
+            SET s.profileImg = :fileH
+            WHERE id_user = :id";
+            $param = [];
+            $param["id"] = $_SESSION["user"]->getId();
+            $param["fileH"] = $file;
+            DAO::update($sql,$param);
+        }
     }
