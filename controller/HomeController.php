@@ -14,9 +14,10 @@
         public function index(){
             
             
-           
+
                 return [
-                    "view" => VIEW_DIR."home.php"
+                    "view" => VIEW_DIR."home.php",
+                    "metaDescription" => "Homepage"
                 ];
             }
             
