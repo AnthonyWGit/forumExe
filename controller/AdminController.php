@@ -27,6 +27,7 @@
             if ($topics != null)
             {
                 return [
+                    "metaDescription" => "topics created",
                     "view" => VIEW_DIR."forum/listTopicsUser.php",
                     "data" => [
                         "user" => $user,
