@@ -1,3 +1,7 @@
+<?php
+    $metaDescription = $result["metaDescription"];
+?>
+
 <?= isset($success) && $success == 1 ? "Register is complete" : "" ?>
 
 <h1>BIENVENUE SUR LE FORUM</h1>
