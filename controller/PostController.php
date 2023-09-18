@@ -30,6 +30,7 @@
             else
             {
                 return [
+                    "metaDescription" => "list posts",
                     "view" => VIEW_DIR."forum/listPosts.php",
                     "data" => [
                         "posts" => $postManager->findPostsInTopic($_GET["id"]),
