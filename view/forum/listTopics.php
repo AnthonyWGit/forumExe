@@ -37,10 +37,10 @@ else
 <div class="topicForm">
 <form id="topic_form" method="post" action="index.php?ctrl=topic&action=newTopic&id=<?=$_GET["id"]?>">
 
-    <label for="topicTitle">Topic tile </label>
+    <label for="topic_title">Topic title </label>
     <input type="text" id="topic_title" name="title"/>    
 
-    <label for="firstPost">First Post</label> 
+    <label for="topic_firstPost">First Post</label> 
     <textarea id="topic_firstPost" name="content"></textarea>
 
     <input type="submit" id="topic_validate" value="New Topic"/>
