@@ -150,7 +150,7 @@
         public function deleteAccount($userId)
         {
             $sql = "UPDATE user as s
-            SET s.username = :username, s.password = :passwordH, s.email = :email , s.registerDate = :re , s.state = :state
+            SET s.username = :username, s.password = :passwordH, s.email = :email , s.registerDate = :re , s.state = :state , s.profileImg = :profileImg
             WHERE id_user = :id";
             $param = [];
             $param["id"] = $_SESSION["user"]->getId();
@@ -159,6 +159,7 @@
             $param["email"] = "none";
             $param["re"] = NULL;
             $param["state"] = "deleted";
+            $param["profileImg"] = "/img/placeholder.jpg";
             DAO::update($sql,$param);
         }
 
