@@ -17,6 +17,7 @@
  
              return [
                  "view" => VIEW_DIR."forum/listCategories.php",
+                 "metaDescription" => "Categories list",
                  "data" => [
                      "categories" => $categoryManager->findAll(["name", "ASC"])
                  ]
