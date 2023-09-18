@@ -62,3 +62,9 @@ header
     flex-direction: column;
     gap: 1rem;
   }
+
+  .blankLink
+  {
+   text-decoration: none;
+   color: white;
+  }
