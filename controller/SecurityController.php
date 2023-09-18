@@ -484,34 +484,103 @@ class HomeController extends AbstractController implements ControllerInterface
                 }            
             }
 
-        public function deleteAccount()
-        {
-            return
-            [
-             "view" => VIEW_DIR."security/confirm.php"
-            ];
-        }
+    public function deleteAccount()
+    {
+        return
+        [
+            "view" => VIEW_DIR."security/confirm.php"
+        ];
+    }
 
-        public function confirmDelete()
+    public function confirmDelete()
+    {
+        if (!SESSION::getUSer()) $this->redirectTo("home,index");
+        if (array_map('trim', $_POST) == null) //trim all contents in post array
         {
-            if (!SESSION::getUSer()) $this->redirectTo("home,index");
-            if (array_map('trim', $_POST) == null) //trim all contents in post array
+            SESSION::addFlash("error","you cannot post an empty field");
+            $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+        }
+        else
+        {
+            $userManager = new userManager();
+            $userId = $_SESSION["user"]->getId();
+            $userManager->deleteAccount($usedId);
+            unset($_SESSION["user"]);
+            $this->redirectTo("index","home");
+        }
+    }
+
+    public function validateProfilePic()
+    {
+        $uploaddir = PUBLIC_DIR.'/uploads/';
+        $uploadfile = $uploaddir . basename($_FILES['avatar']['name']);
+        $uploadOK = 1;
+        $imageFileType = strtolower(pathinfo($uploadfile,PATHINFO_EXTENSION));
+        if(isset($_POST["submit"])) 
+        {
+            $check = getimagesize($_FILES["avatar"]["tmp_name"]);
+            if($check !== false) 
             {
-                SESSION::addFlash("error","you cannot post an empty field");
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOK = 1;
+            } 
+            else {
+                echo "File is not an image.";
+                $uploadOK = 0;
+            }
+        }
+        // Check if file already exists
+        if (file_exists($uploadfile)) 
+        {
+            echo "Sorry, file already exists.";
+            $uploadOK = 0;
+        }
+        if ($_FILES["avatar"]["size"] > 500000) //size restriction
+        {
+            SESSION::addFlash("error","There was an error with the file upload");
+            $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+            echo "Sorry, your file is too large.";
+            $uploadOK = 0;
+        }
+        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) //picture extensions
+        {
+            SESSION::addFlash("error","There was an error with the file upload");
+            $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOK = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOK == 0) 
+        {
+            SESSION::addFlash("error","There was an error with the file upload");
+            $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+            echo "Sorry, your file was not uploaded.";
+            // if everything is ok, try to upload file
+        } 
+        else 
+        {
+            if (move_uploaded_file($_FILES["avatar"]["tmp_name"], $uploadfile)) 
+            {
+                $userManager = new UserManager();
+                echo "The file ". htmlspecialchars( basename( $_FILES["avatar"]["name"])). " has been uploaded.";
+                $file = explode("/", $uploadfile); //constructing the path to specify in db 
+                $uploadExplode = $file[1]."/";
+                $file = "/".$uploadExplode.$file[2];
+                $userManager->updateAvatar($file);
+                SESSION::addFlash("success","file successfully uploaded");
                 $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
-            }
-            else
+            } 
+            else 
             {
-                $userManager = new userManager();
-                $userId = $_SESSION["user"]->getId();
-                $userManager->deleteAccount($usedId);
-                unset($_SESSION["user"]);
-                $this->redirectTo("index","home");
+                SESSION::addFlash("error","There was an error with the file upload");
+                $this->redirectTo("profile","viewProfile", $_SESSION["user"]->getId());
+                echo "Sorry, there was an error uploading your file.";
             }
+        
         }
-
+    }
 }
-    
+
 
 
 
