@@ -24,6 +24,7 @@
 
             return [
                 "view" => VIEW_DIR."forum/profile.php",
+                "metaDescription" => "Profile view",
                 "data" => [
                     "username" => $username,
                     "email" => $email,
